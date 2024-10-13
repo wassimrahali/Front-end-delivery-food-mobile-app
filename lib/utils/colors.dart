@@ -30,6 +30,7 @@ const Color transYellow = Color(0x1FACC18);
 const Color transRed = Color(0x1FF75555);
 const Color transPurple = Color(0x1F9C27B0);
 const Color transCyan = Color(0x1F00BCD4);
+const Color grayScale = Color(0xFF212121);
 
 
 Color white = const Color(0xFFFFFFFF);
