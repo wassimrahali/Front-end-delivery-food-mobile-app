@@ -1,3 +1,4 @@
+import 'package:Foodu/screens/signup.dart';
 import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
-  bool _rememberMe = false;  // Add this boolean for Remember Me checkbox
 
 
   @override
@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
                     Image.asset('assets/images/logo1.png'),
                     SizedBox(height: 15),
                     Text(
-                      "Create New Account",
+                      "Login to Your Account",
                       style: TextStyle(
                         color: grayScale,
                         fontFamily: "Urbanist-SemiBold",
@@ -184,7 +184,7 @@ class _LoginState extends State<Login> {
                             constraints: BoxConstraints(minWidth: 200, minHeight: 56),
                             alignment: Alignment.center,
                             child: Text(
-                              "Sign Up",
+                              "Sign In",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -221,7 +221,7 @@ class _LoginState extends State<Login> {
                           InkWell(
                             onTap: () {
                               // Handle sign-in tap here
-                              print("Sign in tapped");
+                              Navigator.push(context, MaterialPageRoute(builder:(context) => SignupScreen(),),);
                               // You can navigate to the sign-in screen or perform any action here
                             },
                             child: Text(
