@@ -1,5 +1,8 @@
+import 'package:Foodu/screens/Home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../utils/colors.dart';
 
@@ -181,6 +184,11 @@ class _SignupScreenState extends State<SignupScreen> {
                               style: TextStyle(color: disabledButtonColor, fontFamily: "Urbanist-SemiBold"),
                               textAlign: TextAlign.center,
                             ),
+                          ),
+                          MaterialButton(onPressed: (){
+                            Get.to(Home());
+                          },
+                            child: Text("go to home"),
                           )
 
                         ],

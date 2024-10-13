@@ -82,6 +82,16 @@ flutter:
    - assets/images/facebook.png
    - assets/images/google.png
    - assets/images/apple.png
+   - assets/images/hamburger.png
+   - assets/images/SpecialOffers.png
+   - assets/images/pizza.png
+   - assets/images/Filter.png
+   - assets/images/Sort.png
+   - assets/images/pizzaItem.jpg
+   - assets/images/vegetable.png
+   - assets/images/img.png
+   - assets/images/Iconsdell.png
+   - assets/images/MaskGroup.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
