@@ -1,5 +1,6 @@
 import 'package:Foodu/screens/WelcomeScreens.dart';
 import 'package:Foodu/screens/onBordingScreens.dart';
+import 'package:Foodu/screens/productsDetails.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home:WelcomeScreens(),
+      home:Productsdetails(),
     );
   }
 }
