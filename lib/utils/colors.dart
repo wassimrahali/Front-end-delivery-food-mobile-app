@@ -13,7 +13,7 @@ const Color errorColor = Color(0xFFF75555);
 const Color disabledColor = Color(0xFFD8D8D8);
 // Disabled button color
 const Color disabledButtonColor = Color(0xFF29974D);
-
+const Color grise = Color(0xFFF0F5FA);
 
 const Color bgGreen = Color(0xFFF1FFF5);
 const Color bgBlue = Color(0xFFEEF4FF);
