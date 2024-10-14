@@ -16,9 +16,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.navigate_before_rounded),
-      ),
+      appBar: AppBar(),
       body: ListView(
         children: [
           Column(

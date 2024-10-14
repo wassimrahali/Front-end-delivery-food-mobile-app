@@ -75,7 +75,7 @@ flutter:
 
   assets:
    - assets/images/bg1.jpg
-   - assets/images/1.png
+   - assets/images/
    - assets/images/2.png
    - assets/images/3.png
    - assets/images/logo1.png
@@ -116,6 +116,11 @@ flutter:
     - family: Urbanist-SemiBold
       fonts:
         - asset: fonts/Urbanist-SemiBold.ttf
+
+    - family: Lucky-font
+      fonts:
+        - asset: fonts/LuckiestGuy-Regular.ttf
+
 
   #         weight: 700
   #
