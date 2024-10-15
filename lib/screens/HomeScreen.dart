@@ -1,5 +1,5 @@
 
-import 'package:Foodu/screens/productsDetails.dart';
+import 'package:Foodu/products/productsDetails.dart';
 import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/material.dart';
 

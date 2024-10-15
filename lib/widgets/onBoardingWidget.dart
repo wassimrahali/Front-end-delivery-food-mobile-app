@@ -1,5 +1,7 @@
-import 'package:Foodu/screens/login.dart';
+import 'package:Foodu/screens/Home.dart';
+import 'package:Foodu/auth/SignUpForm.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/colors.dart';
 
 class OnboardingPage extends StatelessWidget {
@@ -49,17 +51,30 @@ class OnboardingPage extends StatelessWidget {
           ),
           const SizedBox(height: 50),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               if (pageIndex == 2) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Login(),
-                  ),
-                );
+                // Save the flag that onboarding is complete
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('isFirstTime', false);
+
+                // Check if the user is logged in
+                bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+                // Navigate to Home if logged in, otherwise navigate to SignUp
+                if (isLoggedIn) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
+                } else {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUpForm()),
+                  );
+                }
                 print("Get Started");
               } else {
-                // Navigate to the next page
+                // Navigate to the next onboarding page
                 pageController.nextPage(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
@@ -96,7 +111,8 @@ class OnboardingPage extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+          )
+
         ],
       ),
     );

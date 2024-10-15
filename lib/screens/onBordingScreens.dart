@@ -16,6 +16,10 @@ class _OnBoardingScreensState extends State<OnBoardingScreens> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -66,14 +70,14 @@ class _OnBoardingScreensState extends State<OnBoardingScreens> {
             controller: _pageController,
             count: 3,
             effect: ExpandingDotsEffect(
-              dotHeight: 10,
-              dotWidth: 10,
+              dotHeight: screenHeight * 0.01, // Responsive dot size
+              dotWidth: screenHeight * 0.01, // Responsive dot size
               activeDotColor: successColor,
               dotColor: disabledColor,
               expansionFactor: 3,
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: screenHeight * 0.03), // Responsive spacing
         ],
       ),
     );

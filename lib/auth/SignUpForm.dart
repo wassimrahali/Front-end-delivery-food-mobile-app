@@ -1,21 +1,61 @@
-import 'package:Foodu/screens/Home.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:Foodu/auth/SignInForm.dart';
+import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../utils/colors.dart';
-
-class SignupScreen extends StatefulWidget {
-
-  const SignupScreen({super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+
+  // Controllers for each input field
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> signUp(BuildContext context) async {
+    final url = Uri.parse('http://192.168.1.2:8000/api/auth/register');
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'name': _nameController.text,
+        'email': _emailController.text,
+        'phone': _phoneController.text,
+        'password': _passwordController.text,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      print('Sign Up successful: ${responseData['message']}');
+
+      // Navigate to the login page on success
+
+
+    } else {
+      final errorResponse = jsonDecode(response.body);
+      String errorMessage = errorResponse['message'] ?? 'Sign up sucessufully ';
+      print('Sign Up failed: $errorMessage');
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => SignInForm())
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,70 +92,59 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      TextFormField(
-                        cursorColor: CupertinoColors.black,
-                        decoration: InputDecoration(
-                          hintText: "Phone Number",
-                          hintStyle: TextStyle(fontSize: 13, fontFamily: 'Urbanist-Regular'),
-                          prefixIcon: Icon(Icons.phone_android_rounded),
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green, width: 2.0),
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                        ),
+                      _buildTextFormField(
+                        controller: _nameController,
+                        hintText: "Full Name",
+                        icon: Icons.account_circle,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Please enter your name';
                           }
                           return null;
                         },
                       ),
                       SizedBox(height: 20),
-
-
-                      SizedBox(height: 20),
-                      TextFormField(
-                        cursorColor: CupertinoColors.black,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: "Password",
-
-                          hintStyle: TextStyle(fontSize: 13, fontFamily: 'Urbanist-Regular'),
-                          prefixIcon: Icon(Icons.password_sharp),
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green, width: 2.0,),
-                            borderRadius: BorderRadius.circular(20.0),
-
-                          ),
-                        ),
+                      _buildTextFormField(
+                        controller: _emailController,
+                        hintText: "Email",
+                        icon: Icons.email,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Please enter your email';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      _buildTextFormField(
+                        controller: _phoneController,
+                        hintText: "Phone Number",
+                        icon: Icons.phone_android_rounded,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your phone number';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      _buildTextFormField(
+                        controller: _passwordController,
+                        hintText: "Password",
+                        icon: Icons.password_sharp,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
                           }
                           return null;
                         },
                       ),
                       SizedBox(height: 40),
-
-
                       ElevatedButton(
                         onPressed: () {
-                          // Add your onPressed functionality here
                           if (_formKey.currentState!.validate()) {
-                            // If the form is valid, process the data
-                            print('Form is valid');
+                            signUp(context);  // Pass context to sign-up function
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -144,27 +173,23 @@ class _SignupScreenState extends State<SignupScreen> {
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
-
                               ),
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 30),
-
+                      SizedBox(height: 20),
                       TextDivider(text: "Or continue with",),
-                      SizedBox(height: 30),
-
+                      SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Image.asset("assets/images/facebook.png",width: 30,),
-                          Image.asset("assets/images/google.png",width: 30,),
-                          Image.asset("assets/images/apple.png",width: 30,),
+                          Image.asset("assets/images/facebook.png", width: 30,),
+                          Image.asset("assets/images/google.png", width: 30,),
+                          Image.asset("assets/images/apple.png", width: 30,),
                         ],
                       ),
-                      SizedBox(height: 40),
-
+                      SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -175,29 +200,18 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              // Handle sign-in tap here
-                              print("Sign in tapped");
-                              // You can navigate to the sign-in screen or perform any action here
+                              // Navigate to sign-in page
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInForm(),));
                             },
                             child: Text(
                               " Sign in",
                               style: TextStyle(color: disabledButtonColor, fontFamily: "Urbanist-SemiBold"),
                               textAlign: TextAlign.center,
                             ),
-                          ),
-                          MaterialButton(onPressed: (){
-                            Get.to(Home());
-                          },
-                            child: Text("go to home"),
                           )
-
                         ],
                       )
-
-
-
                     ],
-
                   ),
                 ),
               ),
@@ -207,8 +221,37 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
-}
 
+  Widget _buildTextFormField({
+    required TextEditingController controller,
+    required String hintText,
+    required IconData icon,
+    bool obscureText = false,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      cursorColor: CupertinoColors.black,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(fontSize: 13, fontFamily: 'Urbanist-Regular'),
+        prefixIcon: Icon(icon),
+        filled: true,
+        fillColor: Colors.grey[100],
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.green, width: 2.0),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+      ),
+      validator: validator,
+    );
+  }
+}
 
 class TextDivider extends StatelessWidget {
   final String text;
@@ -239,9 +282,9 @@ class TextDivider extends StatelessWidget {
           child: Text(
             text,
             style: textStyle ?? TextStyle(
-                color: Colors.grey[700],
-                fontSize: 14,
-                fontFamily: 'Urbanist-SemiBold'
+              color: Colors.grey[700],
+              fontSize: 14,
+              fontFamily: 'Urbanist-SemiBold',
             ),
           ),
         ),
@@ -254,6 +297,4 @@ class TextDivider extends StatelessWidget {
       ],
     );
   }
-
 }
-
