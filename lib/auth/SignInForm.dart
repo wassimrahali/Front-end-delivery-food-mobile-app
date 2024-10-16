@@ -192,7 +192,7 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   Future<void> login(String phone, String password) async {
-    final String apiUrl = 'http://192.168.1.2:8000/api/auth/login';
+    final String apiUrl = 'http://192.168.146.42:8000/api/auth/login';
 
     try {
       final response = await http.post(

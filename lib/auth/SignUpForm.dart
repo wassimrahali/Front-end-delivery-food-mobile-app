@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:Foodu/screens/HomeScreen.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:Foodu/auth/SignInForm.dart';
 import 'package:Foodu/utils/colors.dart';
@@ -22,7 +25,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _passwordController = TextEditingController();
 
   Future<void> signUp(BuildContext context) async {
-    final url = Uri.parse('http://192.168.1.2:8000/api/auth/register');
+    final url = Uri.parse('http://192.168.146.42:8000/api/auth/register');
 
     final response = await http.post(
       url,
@@ -208,7 +211,21 @@ class _SignUpFormState extends State<SignUpForm> {
                               style: TextStyle(color: disabledButtonColor, fontFamily: "Urbanist-SemiBold"),
                               textAlign: TextAlign.center,
                             ),
+
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // Navigate to sign-in page
+                              Get.to(Homescreen());
+                            },
+                            child: Text(
+                              " home",
+                              style: TextStyle(color: disabledButtonColor, fontFamily: "Urbanist-SemiBold"),
+                              textAlign: TextAlign.center,
+                            ),
+
                           )
+
                         ],
                       )
                     ],

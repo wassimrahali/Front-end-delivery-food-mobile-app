@@ -1,9 +1,11 @@
-import 'package:Foodu/utils/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/colors.dart';
+
 class Productsdetails extends StatefulWidget {
-  const Productsdetails({super.key});
+  final Map<String, dynamic> product;
+
+  const Productsdetails({Key? key, required this.product}) : super(key: key);
 
   @override
   State<Productsdetails> createState() => _ProductsdetailsState();
@@ -15,6 +17,8 @@ class _ProductsdetailsState extends State<Productsdetails> {
 
   @override
   Widget build(BuildContext context) {
+    final product = widget.product;
+
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
@@ -23,7 +27,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 30),
-              Image.asset("assets/images/5.png"),
+              Image.network(product['image_url'] ?? 'https://via.placeholder.com/150'), // Product image
               Padding(
                 padding: const EdgeInsets.only(right: 18, left: 18),
                 child: Container(
@@ -36,7 +40,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                   child: Text(
-                    "Category",
+                    product['category'] ?? 'Category', // Category
                     style: TextStyle(
                       fontFamily: "Urbanist-Regular",
                       fontSize: 18,
@@ -48,7 +52,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
               Padding(
                 padding: const EdgeInsets.only(right: 18, left: 18),
                 child: Text(
-                  "Pizza calzone european",
+                  product['name'] ?? 'Product Name', // Product name
                   style: TextStyle(
                     fontFamily: 'Urbanist-Bold',
                     fontSize: 20,
@@ -58,7 +62,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Text(
-                  "Prosciutto e funghi is a pizza variety that is topped with tomato sauce.",
+                  product['description'] ?? 'No description available', // Product description
                   style: TextStyle(
                     fontFamily: 'Urbanist-Regular',
                     fontSize: 17,
@@ -82,7 +86,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
                   Padding(
                     padding: const EdgeInsets.only(left: 18.0),
                     child: Text(
-                      "Size : ",
+                      "Size: ",
                       style: TextStyle(
                         fontFamily: "Urbanist-Regular",
                         fontSize: 18,
@@ -112,7 +116,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '\$32',
+                            '\$${product['price'] ?? '0'}',
                             style: TextStyle(
                               fontSize: 22,
                               fontFamily: 'Urbanist-Regular',
@@ -152,7 +156,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
                           ),
                         ],
                       ),
-                      SizedBox(height:40 ),
+                      SizedBox(height: 40),
                       ElevatedButton(
                         onPressed: () {
                           // Add to cart functionality

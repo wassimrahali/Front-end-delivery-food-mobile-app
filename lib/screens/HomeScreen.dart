@@ -1,7 +1,8 @@
-
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:Foodu/products/productsDetails.dart';
 import 'package:Foodu/utils/colors.dart';
-import 'package:flutter/material.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -11,6 +12,33 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
+  Future<List<dynamic>> GetData() async {
+    final response = await get(Uri.parse("http://192.168.146.42:8000/api/categories"));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Échec de la récupération des catégories');
+    }
+  }
+
+  Future<List<dynamic>> GetProductData() async {
+    final response = await get(Uri.parse("http://192.168.146.42:8000/api/products"));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Échec de la récupération des produits');
+    }
+  }
+
+  @override
+  void initState() {
+    GetData();
+    GetProductData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,86 +144,111 @@ class _HomescreenState extends State<Homescreen> {
   }
 
   Widget _buildCategories() {
-    final categories = [
-      {'icon': Icons.fastfood, 'name': 'Hambur..'},
-      {'icon': Icons.local_pizza, 'name': 'Pizza'},
-      {'icon': Icons.ramen_dining, 'name': 'Noodles'},
-      {'icon': Icons.restaurant, 'name': 'Meal'},
-      {'icon': Icons.eco, 'name': 'Vegeta..'},
-      {'icon': Icons.cake, 'name': 'Dessert'},
-      {'icon': Icons.local_bar, 'name': 'Drink'},
-      {'icon': Icons.more_horiz, 'name': 'More'},
-    ];
+    return FutureBuilder<List<dynamic>>(
+      future: GetData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('no categories available'));
+        } else {
+          final categories = snapshot.data!;
 
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Categories', style: TextStyle(fontSize: 18, fontFamily: "Urbanist-Bold")),
-            TextButton(
-              onPressed: () {},
-              child: Text('See All', style: TextStyle(color: successColor,fontFamily: "Urbanist-Bold")),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            childAspectRatio: 1,
-          ),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.green.withOpacity(0.1),
-                  child: Icon(categories[index]['icon'] as IconData, color: Colors.green),
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Categories', style: TextStyle(fontSize: 18, fontFamily: "Urbanist-Bold")),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('See All', style: TextStyle(color: successColor, fontFamily: "Urbanist-Bold")),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: 1,
                 ),
-                SizedBox(height: 5),
-                Text(categories[index]['name'] as String, style: TextStyle(fontSize: 12)),
-              ],
-            );
-          },
-        ),
-      ],
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  final category = categories[index];
+
+                  return Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.green.withOpacity(0.1),
+                        child: Image.asset((category['name']), color: Colors.green),
+                      ),
+                      SizedBox(height: 5),
+                      Text(category['name'], style: TextStyle(fontSize: 12)),
+                    ],
+                  );
+                },
+              ),
+            ],
+          );
+        }
+      },
     );
   }
 
   Widget _buildDiscountSection() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Discount Guaranteed! 👌', style: TextStyle(fontSize: 18, fontFamily: "Urbanist-Bold",)),
-            TextButton(
-              onPressed: () {},
-              child: Text('See All', style: TextStyle(color: successColor,fontFamily: "Urbanist-Bold")),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(child: _buildDiscountCard(context)), // Pass context here
-            const SizedBox(width: 10),
-            Expanded(child: _buildDiscountCard(context)), // Pass context here
-          ],
-        ),
-      ],
+    return FutureBuilder<List<dynamic>>(
+      future: GetProductData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No products available'));
+        } else {
+          final products = snapshot.data!;
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Discount Guaranteed! 👌', style: TextStyle(fontSize: 18, fontFamily: "Urbanist-Bold")),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('See All', style: TextStyle(color: successColor, fontFamily: "Urbanist-Bold")),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              // Display two product cards in a row
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildDiscountCard(context, products[0]), // Display first product
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _buildDiscountCard(context, products.length > 1 ? products[1] : products[0]), // Display second product or fallback to the first if not enough products
+                  ),
+                ],
+              ),
+            ],
+          );
+        }
+      },
     );
   }
 
-  Widget _buildDiscountCard(BuildContext context) {
+  Widget _buildDiscountCard(BuildContext context, Map<String, dynamic> product) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Productsdetails()),
+          MaterialPageRoute(builder: (context) => Productsdetails(product: product)),
         );
       },
       child: Container(
@@ -208,8 +261,8 @@ class _HomescreenState extends State<Homescreen> {
           borderRadius: BorderRadius.circular(20),
           child: Stack(
             children: [
-              Image.asset(
-                "assets/images/salads.jpg",
+              Image.network(
+                product['image_url'] ?? 'https://via.placeholder.com/150', // Use network image or fallback
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
@@ -246,7 +299,7 @@ class _HomescreenState extends State<Homescreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Fresh Salads',
+                        product['name'] ?? 'Product Name', // Display product name
                         style: TextStyle(
                           fontFamily: "Urbanist-Bold",
                           fontSize: 18,
@@ -255,7 +308,7 @@ class _HomescreenState extends State<Homescreen> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Healthy and delicious options',
+                        product['description'] ?? 'No description available', // Display product description
                         style: TextStyle(
                           color: Colors.white70,
                           fontSize: 14,
@@ -271,8 +324,5 @@ class _HomescreenState extends State<Homescreen> {
       ),
     );
   }
+
 }
-
-
-
-
