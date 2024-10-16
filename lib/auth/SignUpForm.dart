@@ -1,9 +1,14 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:Foodu/auth/SignInForm.dart';
-import 'package:Foodu/utils/colors.dart';
+// lib/auth/SignUpForm.dart
+
+import 'package:Foodu/services/signup_service.dart';
+import 'package:Foodu/widgets/SocialMediaIconsWidget.dart';
+import 'package:Foodu/widgets/TextDivderWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:Foodu/auth/SignInForm.dart';
+import 'package:Foodu/utils/colors.dart';
+
+import '../widgets/HeaderWidget.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -14,56 +19,16 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-
-  // Controllers for each input field
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> signUp(BuildContext context) async {
-    final url = Uri.parse('http://192.168.1.2:8000/api/auth/register');
-
-    final response = await http.post(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'name': _nameController.text,
-        'email': _emailController.text,
-        'phone': _phoneController.text,
-        'password': _passwordController.text,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      print('Sign Up successful: ${responseData['message']}');
-
-      // Navigate to the login page on success
-
-
-    } else {
-      final errorResponse = jsonDecode(response.body);
-      String errorMessage = errorResponse['message'] ?? 'Sign up sucessufully ';
-      print('Sign Up failed: $errorMessage');
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => SignInForm())
-      );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: grayScale, size: 26),
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -71,17 +36,7 @@ class _SignUpFormState extends State<SignUpForm> {
               Center(
                 child: Column(
                   children: [
-                    SizedBox(height: 35),
-                    Image.asset('assets/images/logo1.png'),
-                    SizedBox(height: 15),
-                    Text(
-                      "Create New Account",
-                      style: TextStyle(
-                        color: grayScale,
-                        fontFamily: "Urbanist-SemiBold",
-                        fontSize: 30,
-                      ),
-                    ),
+                    HeaderWidget("Login", text: 'Create New Account',),
                   ],
                 ),
               ),
@@ -144,7 +99,14 @@ class _SignUpFormState extends State<SignUpForm> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            signUp(context);  // Pass context to sign-up function
+                            // Call the signUp method from SignUpService
+                            SignUpService.signUp(
+                              _nameController.text,
+                              _emailController.text,
+                              _phoneController.text,
+                              _passwordController.text,
+                              context,
+                            );
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -179,16 +141,9 @@ class _SignUpFormState extends State<SignUpForm> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      TextDivider(text: "Or continue with",),
+                      TextDividerWidget(text: "Or continue with"),
                       SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Image.asset("assets/images/facebook.png", width: 30,),
-                          Image.asset("assets/images/google.png", width: 30,),
-                          Image.asset("assets/images/apple.png", width: 30,),
-                        ],
-                      ),
+                      SocialMediaIconsWidget(),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -201,7 +156,7 @@ class _SignUpFormState extends State<SignUpForm> {
                           InkWell(
                             onTap: () {
                               // Navigate to sign-in page
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInForm(),));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInForm()));
                             },
                             child: Text(
                               " Sign in",
@@ -210,7 +165,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             ),
                           )
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -249,52 +204,6 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
       ),
       validator: validator,
-    );
-  }
-}
-
-class TextDivider extends StatelessWidget {
-  final String text;
-  final TextStyle? textStyle;
-  final double thickness;
-  final Color color;
-
-  const TextDivider({
-    Key? key,
-    required this.text,
-    this.textStyle,
-    this.thickness = 1.5,
-    this.color = Colors.grey,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Divider(
-            thickness: thickness,
-            color: color,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            text,
-            style: textStyle ?? TextStyle(
-              color: Colors.grey[700],
-              fontSize: 14,
-              fontFamily: 'Urbanist-SemiBold',
-            ),
-          ),
-        ),
-        Expanded(
-          child: Divider(
-            thickness: thickness,
-            color: color,
-          ),
-        ),
-      ],
     );
   }
 }
