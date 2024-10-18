@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class SignUpService {
   static Future<void> signUp(String name, String email, String phone, String password, BuildContext context) async {
-    final String apiUrl = 'http://192.168.1.2:8000/api/auth/register';
+    final String apiUrl = 'http://172.20.0.103:8000/api/auth/register';
 
     try {
       final response = await http.post(

@@ -24,8 +24,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   final bool isFirstTime;
   final bool isLoggedIn;
+  final int? userId;
 
-  const MyApp({super.key, required this.isFirstTime, required this.isLoggedIn});
+  const MyApp({super.key, required this.isFirstTime, required this.isLoggedIn, this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       home: isFirstTime
           ? WelcomeScreens() // If it's the first time, show Welcome/Onboarding
           : isLoggedIn
-          ? Home() // If user is logged in, show Home
+          ?Home(id: userId!) // If user is logged in, show Home
           : SignUpForm(), // If not logged in, show SignUp page
     );
   }

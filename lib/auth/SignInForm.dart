@@ -51,7 +51,7 @@ class _SignInFormState extends State<SignInForm> {
                         },
                       ),
                       SizedBox(height: 30),
-                      TextDividerWidget(text: "Or continue with"), // Use your TextDividerWidget here
+                      TextDividerWidget(text: "Or continue with"),
                       SizedBox(height: 30),
                       SocialMediaIconsWidget(),
                       SizedBox(height: 40),

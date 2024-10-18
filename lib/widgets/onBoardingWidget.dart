@@ -64,7 +64,7 @@ class OnboardingPage extends StatelessWidget {
                 if (isLoggedIn) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Home()),
+                    MaterialPageRoute(builder: (context) => Home(id: 5,)),
                   );
                 } else {
                   Navigator.pushReplacement(

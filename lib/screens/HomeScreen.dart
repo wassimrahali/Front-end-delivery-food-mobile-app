@@ -5,15 +5,20 @@ import 'package:Foodu/products/productsDetails.dart';
 import 'package:Foodu/utils/colors.dart';
 
 class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
+  final int userId;
+
+  const Homescreen({super.key, required this.userId});
+
 
   @override
   State<Homescreen> createState() => _HomescreenState();
 }
 
 class _HomescreenState extends State<Homescreen> {
+  late final int Id;
+  String userName = '';
   Future<List<dynamic>> GetData() async {
-    final response = await get(Uri.parse("http://192.168.1.2:8000/api/categories"));
+    final response = await get(Uri.parse("http://172.20.0.103:8000/api/categories"));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -23,7 +28,7 @@ class _HomescreenState extends State<Homescreen> {
   }
 
   Future<List<dynamic>> GetProductData() async {
-    final response = await get(Uri.parse("http://192.168.1.2:8000/api/products"));
+    final response = await get(Uri.parse("http://172.20.0.103:8000/api/products"));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -32,10 +37,25 @@ class _HomescreenState extends State<Homescreen> {
     }
   }
 
+  Future<Map<String, dynamic>> GetuserId() async {
+    final response = await get(Uri.parse("http://172.20.0.103:8000/api/auth/customer/${widget.userId}"));
+
+    if (response.statusCode == 200) {
+      final userData = jsonDecode(response.body);
+      setState(() {
+        userName = userData['name']; // Assuming 'name' is the field with the user's name
+      });
+      return userData;
+    } else {
+      throw Exception('Failed to fetch user data');
+    }
+  }
+
   @override
   void initState() {
     GetData();
     GetProductData();
+    GetuserId();
     super.initState();
   }
 
@@ -75,10 +95,10 @@ class _HomescreenState extends State<Homescreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Deliver to', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                Text("deliver to", style: TextStyle(color: Colors.grey, fontSize: 12)),
                 Row(
                   children: [
-                    Text('Times Square', style: TextStyle(fontFamily: "Urbanist-Bold")),
+                    Text(userName.isNotEmpty ? userName : 'Loading...', style: TextStyle(fontFamily: "Urbanist-Bold")),
                     Icon(Icons.keyboard_arrow_down, color: Colors.green, size: 16),
                   ],
                 ),
