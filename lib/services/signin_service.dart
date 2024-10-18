@@ -1,12 +1,19 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import '../screens/Home.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../screens/Home.dart'; // Make sure to import the JWT decoder package
+
+
 class SignInService {
+  static String? _token; // Store token here
+  static int? _userId; // Store user ID here
+
   static Future<void> login(String phone, String password, BuildContext context) async {
-    final String apiUrl = 'http://172.20.0.103:8000/api/auth/login';
+    final String apiUrl = 'http://172.26.240.1:8000/api/auth/login';
 
     try {
       final response = await http.post(
@@ -22,26 +29,24 @@ class SignInService {
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        String yourToken = responseData['token'];
-        Map<String, dynamic> decodedToken = JwtDecoder.decode(yourToken);
+        _token = responseData['token']; // Store the token
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(_token!);
+        _userId = decodedToken['id']; // Store user ID
         print('Login successful: ${decodedToken}');
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(id: decodedToken['id'])));
-
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(id: _userId!)));
       } else {
         final errorResponse = jsonDecode(response.body);
         String errorMessage = errorResponse['message'] ?? 'Login failed';
         print('Login failed: $errorMessage');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
       }
     } catch (e) {
       print('Error during login: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred. Please try again later.')),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('An error occurred. Please try again later.')));
     }
   }
 
-
+  // Method to retrieve the token and user ID
+  static String? get token => _token;
+  static int? get userId => _userId; // Added getter for user ID
 }

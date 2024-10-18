@@ -1,3 +1,4 @@
+import 'package:Foodu/screens/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'HomeScreen.dart';
 
@@ -12,12 +13,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
-  // List of widget options for each tab
   List<Widget> _widgetOptions() {
     return [
-      Homescreen(userId: widget.id), // Access widget.id here
+      Homescreen(userId: widget.id),
       OrdersScreen(),
-      ProfileScreen(),
+      UpdateUserScreen(userId:widget.id,)
     ];
   }
 
@@ -64,15 +64,3 @@ class OrdersScreen extends StatelessWidget {
   }
 }
 
-// Profile screen widget
-class ProfileScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Profile Screen',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}

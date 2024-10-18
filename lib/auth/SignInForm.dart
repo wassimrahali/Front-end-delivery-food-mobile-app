@@ -43,7 +43,7 @@ class _SignInFormState extends State<SignInForm> {
                       SizedBox(height: 20),
                       PasswordFieldWidget(onChanged: (value) => password = value),
                       SizedBox(height: 40),
-                      SignInButtonWidget(
+                      SignInButtonWidget(text: 'Sign In',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             await SignInService.login(phone!, password!, context);
