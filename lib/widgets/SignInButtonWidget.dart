@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class SignInButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
+  final String text; // Add this line to declare the text variable
 
-  SignInButtonWidget({required this.onPressed});
+  // Include the text parameter in the constructor
+  SignInButtonWidget({required this.onPressed, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class SignInButtonWidget extends StatelessWidget {
           constraints: BoxConstraints(minWidth: 200, minHeight: 56),
           alignment: Alignment.center,
           child: Text(
-            "Sign In",
+            text, // Now using the passed text variable
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,
