@@ -28,7 +28,7 @@ class _HomescreenState extends State<Homescreen> {
   }
 
   Future<List<dynamic>> GetProductData() async {
-    final response = await get(Uri.parse("http://172.20.0.103:8000/api/products"));
+    final response = await get(Uri.parse("http://192.168.56.1:8000/api/products"));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
@@ -38,7 +38,7 @@ class _HomescreenState extends State<Homescreen> {
   }
 
   Future<Map<String, dynamic>> GetuserId() async {
-    final response = await get(Uri.parse("http://172.20.0.103:8000/api/auth/customer/${widget.userId}"));
+    final response = await get(Uri.parse("http://192.168.56.1:8000/api/auth/customer/${widget.userId}"));
 
     if (response.statusCode == 200) {
       final userData = jsonDecode(response.body);
@@ -207,17 +207,17 @@ class _HomescreenState extends State<Homescreen> {
                     children: [
                       CircleAvatar(
                         backgroundColor: Colors.green.withOpacity(0.1),
-                        radius: 30, // Adjust radius for size
+                        radius: 30,
                         child: Image.network(
-                          category['image'], // Use the 'image' field for the category image
-                          height: 30, // Adjust image size within CircleAvatar
+                          category['image'],
+                          height: 30,
                           width: 30,
                           fit: BoxFit.cover,
                         ),
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        category['name'], // Display the category name
+                        category['name'],
                         style: TextStyle(fontSize: 12),
                       ),
                     ],

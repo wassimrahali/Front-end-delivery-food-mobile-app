@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../screens/Home.dart';
+import '../../../screens/deleveryman/Home.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class SignInService {
   static Future<void> login(String phone, String password, BuildContext context) async {
-    final String apiUrl = 'http://172.20.0.103:8000/api/auth/login';
+    final String apiUrl = 'http://192.168.56.1:8000/api/auth/loginDileveryMan';
 
     try {
       final response = await http.post(
@@ -25,7 +25,7 @@ class SignInService {
         String yourToken = responseData['token'];
         Map<String, dynamic> decodedToken = JwtDecoder.decode(yourToken);
         print('Login successful: ${decodedToken}');
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(id: decodedToken['id'])));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
 
       } else {
         final errorResponse = jsonDecode(response.body);

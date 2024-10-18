@@ -1,13 +1,13 @@
 // lib/auth/SignUpService.dart
 
 import 'dart:convert';
-import 'package:Foodu/auth/SignInForm.dart';
+import 'package:Foodu/auth/userauth/SignInForm.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class SignUpService {
   static Future<void> signUp(String name, String email, String phone, String password, BuildContext context) async {
-    final String apiUrl = 'http://172.20.0.103:8000/api/auth/register';
+    final String apiUrl = 'http://192.168.56.1:8000/api/auth/register';
 
     try {
       final response = await http.post(

@@ -1,13 +1,13 @@
-import 'package:Foodu/services/signin_service.dart';
+import 'package:Foodu/services/userservice/signin_service.dart';
 import 'package:flutter/material.dart';
-import '../widgets/HeaderWidget.dart';
-import '../widgets/PasswordFieldWidget.dart';
-import '../widgets/SignInButtonWidget.dart';
-import '../widgets/SignUpOptionWidget.dart';
-import '../widgets/SocialMediaIconsWidget.dart';
+import '../../widgets/HeaderWidget.dart';
+import '../../widgets/PasswordFieldWidget.dart';
+import '../../widgets/SignInButtonWidget.dart';
+import '../../widgets/SignUpOptionWidget.dart';
+import '../../widgets/SocialMediaIconsWidget.dart';
 
-import '../widgets/TextDivderWidget.dart';
-import '../widgets/phoneFieldWidget.dart';
+import '../../widgets/TextDivderWidget.dart';
+import '../../widgets/phoneFieldWidget.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});

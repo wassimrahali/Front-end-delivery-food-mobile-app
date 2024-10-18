@@ -27,8 +27,8 @@ class _ProductsdetailsState extends State<Productsdetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 30),
-              Image.network(product['image_url'
-                  ''] ?? 'https://via.placeholder.com/150'), // Product image
+              Image.network(product['mainImage'
+                  ''] ?? 'https://via.placeholder.com/150'),
               Padding(
                 padding: const EdgeInsets.only(right: 18, left: 18),
                 child: Container(
@@ -53,7 +53,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
               Padding(
                 padding: const EdgeInsets.only(right: 18, left: 18),
                 child: Text(
-                  product['name'] ?? 'Product Name', // Product name
+                  product['name'] ?? 'Product Name',
                   style: TextStyle(
                     fontFamily: 'Urbanist-Bold',
                     fontSize: 20,
@@ -63,7 +63,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Text(
-                  product['description'] ?? 'No description available', // Product description
+                  product['description'] ?? 'No description available',
                   style: TextStyle(
                     fontFamily: 'Urbanist-Regular',
                     fontSize: 17,

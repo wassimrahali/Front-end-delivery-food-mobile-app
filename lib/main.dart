@@ -3,7 +3,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/Home.dart';
 import 'screens/WelcomeScreens.dart';
-import 'auth/SignUpForm.dart';
+import 'auth/userauth/SignUpForm.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
