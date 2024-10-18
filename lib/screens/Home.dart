@@ -1,17 +1,9 @@
-//Layout Hathi ******************************************************************!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//*****************Nbadloulha esmha b3d wil componnet n7othom wa7dhom
-//**************bch tal89a fiha Navigayion of bootom bar
-
 import 'package:flutter/material.dart';
-
 import 'HomeScreen.dart';
 
-void main() {
-  runApp(const MaterialApp(home: Home()));
-}
-
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final int id;
+  const Home({Key? key, required this.id}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -21,11 +13,13 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
   // List of widget options for each tab
-  final List<Widget> _widgetOptions = [
-    Homescreen(),
-    OrdersScreen(),
-    ProfileScreen(),
-  ];
+  List<Widget> _widgetOptions() {
+    return [
+      Homescreen(userId: widget.id), // Access widget.id here
+      OrdersScreen(),
+      ProfileScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -37,7 +31,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: _widgetOptions[_selectedIndex], // Display the selected screen
+        child: _widgetOptions()[_selectedIndex], // Display the selected screen
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.green,
@@ -56,8 +50,6 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-
 
 // Orders screen widget
 class OrdersScreen extends StatelessWidget {
