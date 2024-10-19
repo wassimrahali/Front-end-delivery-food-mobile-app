@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http; // Import http for making network requests
+import 'dart:convert'; // Import for jsonDecode
 import '../../products/productsDetails.dart';
-import '../../utils/colors.dart'; // Added missing material import
+import '../../utils/api_constants.dart';
+import '../../utils/colors.dart'; // Ensure this color file has the defined colors
 
 class DiscountSectionWidget extends StatefulWidget {
   const DiscountSectionWidget({super.key});
@@ -13,12 +15,38 @@ class DiscountSectionWidget extends StatefulWidget {
 
 class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
   // Added products list declaration
-  final List<Map<String, dynamic>> products = []; // You should initialize this with your data
+  final List<Map<String, dynamic>> products = []; // Initialize this with your data
 
   @override
-  Widget build(BuildContext context) { // Added BuildContext context parameter
+  void initState() {
+    super.initState();
+    _fetchProductData(); // Fetch products when the widget initializes
+  }
+
+  // Fetch Products Data
+  Future<void> _fetchProductData() async {
+    try {
+      final response = await http.get(Uri.parse(ApiConstants.getAllProducts));
+
+      if (response.statusCode == 200) {
+        // Update the state with the fetched product data
+        setState(() {
+          products.addAll(List<Map<String, dynamic>>.from(jsonDecode(response.body)));
+        });
+      } else {
+        throw Exception('Failed to fetch products');
+      }
+    } catch (error) {
+      // Handle errors appropriately
+      print(error); // You can replace this with a proper error message in your UI
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Check if products list is empty
     if (products.isEmpty) {
-      return const Center(child: Text('No products available')); // Added const
+      return const Center(child: Text('No products available'));
     }
 
     return Column(
@@ -26,39 +54,42 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text( // Added const
+            const Text(
               'Discount Guaranteed! 👌',
               style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: "Urbanist-Bold"
+                fontSize: 18,
+                fontFamily: "Urbanist-Bold",
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                // Define action for "See All"
+              },
               child: Text(
                 'See All',
                 style: TextStyle(
-                    color: successColor, // You need to define successColor or use a direct color
-                    fontFamily: "Urbanist-Bold"
+                  color: successColor, // Make sure successColor is defined in your colors
+                  fontFamily: "Urbanist-Bold",
                 ),
               ),
             ),
           ],
         ),
         const SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: _buildDiscountCard(context, products[0]),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _buildDiscountCard(
-                  context,
-                  products.length > 1 ? products[1] : products[0]
-              ),
-            ),
-          ],
+        // Grid view to display all products
+        GridView.builder(
+          shrinkWrap: true, // Prevents the GridView from taking infinite height
+          physics: const NeverScrollableScrollPhysics(), // Disable scrolling
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Two cards per row
+            childAspectRatio: 0.7, // Adjust the aspect ratio for the cards
+            crossAxisSpacing: 10, // Space between cards in the horizontal direction
+            mainAxisSpacing: 10, // Space between cards in the vertical direction
+          ),
+          itemCount: products.length, // Number of products
+          itemBuilder: (context, index) {
+            return _buildDiscountCard(context, products[index]);
+          },
         ),
       ],
     );
@@ -70,7 +101,7 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Productsdetails(product: product), // Make sure Productsdetails is imported
+            builder: (context) => Productsdetails(product: product),
           ),
         );
       },
@@ -84,20 +115,27 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
           borderRadius: BorderRadius.circular(20),
           child: Stack(
             children: [
+              // Display the product image
+              Image.network(
+                product['mainImage'],
+                fit: BoxFit.cover,
+                height: 200, // Set the height of the image
+                width: double.infinity, // Set width to fill the container
+              ),
               Positioned(
                 top: 10,
                 left: 10,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), // Added const
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Text( // Added const
+                  child: const Text(
                     'PROMO',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -107,14 +145,14 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
                 left: 0,
                 right: 0,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15), // Added const
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                       colors: [
                         Colors.black.withOpacity(0.8),
-                        Colors.transparent
+                        Colors.transparent,
                       ],
                     ),
                   ),
@@ -123,16 +161,16 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
                     children: [
                       Text(
                         product['name'] ?? 'Product Name',
-                        style: const TextStyle( // Added const
+                        style: const TextStyle(
                           fontFamily: "Urbanist-Bold",
                           fontSize: 18,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 4), // Added const
+                      const SizedBox(height: 4),
                       Text(
                         product['description'] ?? 'No description available',
-                        style: const TextStyle( // Added const
+                        style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 14,
                         ),

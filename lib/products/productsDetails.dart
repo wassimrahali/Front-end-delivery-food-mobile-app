@@ -20,17 +20,22 @@ class _ProductsdetailsState extends State<Productsdetails> {
     final product = widget.product;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor:Colors.transparent,
+        title: Text(product['name'] ?? 'Product Details',style: TextStyle(fontSize: 20,fontFamily: 'Urbanist-Bold'),), // Add title for the app bar
+      ),
       body: ListView(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Image.network(
+                product['mainImage'] ?? 'https://via.placeholder.com/150', // Corrected image key
+                fit: BoxFit.cover, // Ensures image fits nicely in the container
+              ), // Product image
               SizedBox(height: 30),
-              Image.network(product['image_url'
-                  ''] ?? 'https://via.placeholder.com/150'), // Product image
               Padding(
-                padding: const EdgeInsets.only(right: 18, left: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -39,9 +44,9 @@ class _ProductsdetailsState extends State<Productsdetails> {
                     ),
                     borderRadius: BorderRadius.circular(50),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                   child: Text(
-                    product['category'] ?? 'Category', // Category
+                    product['category']['name'] ?? 'Category', // Updated to access category name
                     style: TextStyle(
                       fontFamily: "Urbanist-Regular",
                       fontSize: 18,
@@ -51,7 +56,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
               ),
               SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.only(right: 18, left: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Text(
                   product['name'] ?? 'Product Name', // Product name
                   style: TextStyle(
@@ -198,7 +203,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

@@ -71,7 +71,7 @@ class _GetHomeState extends State<GetHome> {
           setState(() {
             userName = userData['name'];
             categories = futures[0];
-            products = futures[1];
+            products = futures[0];
             isLoading = false;
           });
         }
