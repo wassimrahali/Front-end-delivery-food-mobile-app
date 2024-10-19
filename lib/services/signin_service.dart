@@ -2,18 +2,16 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../screens/Home.dart'; // Make sure to import the JWT decoder package
-
+import '../screens/Home.dart';
+import '../utils/api_constants.dart'; // Make sure to import the JWT decoder package
 
 class SignInService {
   static String? _token; // Store token here
   static int? _userId; // Store user ID here
 
   static Future<void> login(String phone, String password, BuildContext context) async {
-    final String apiUrl = 'http://172.26.240.1:8000/api/auth/login';
+    final String apiUrl = ApiConstants.loginCustomer; // Use the API constant
 
     try {
       final response = await http.post(

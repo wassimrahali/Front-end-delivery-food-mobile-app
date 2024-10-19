@@ -1,10 +1,14 @@
 import 'package:Foodu/utils/colors.dart';
-import 'package:Foodu/widgets/SignInButtonWidget.dart';
+import 'package:Foodu/widgets/AuthFormWidget/SignInButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:http/http.dart';
-import '../services/signin_service.dart';
+
 import '../services/updateUser_service.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import '../utils/api_constants.dart';
+
 
 class UpdateUserScreen extends StatefulWidget {
   final int userId;
@@ -40,27 +44,31 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
 
   Future<void> _loadUserData() async {
     try {
-      final userData = await GetuserId();
+      final userData = await getUserId();
+
       setState(() {
         userName = userData['name'];
-        _nameController.text = userData['name'] ?? '';
-        _emailController.text = userData['email'] ?? '';
-        _phoneController.text = userData['phone'] ?? '';
-        _isLoading = false;
+        _nameController.text = userData['name'] ?? '';   // Set name
+        _emailController.text = userData['email'] ?? ''; // Set email
+        _phoneController.text = userData['phone'] ?? ''; // Set phone
+        _isLoading = false; // Stop loading indicator
       });
     } catch (e) {
+      // Show an error message in a SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to load user data: $e'))
       );
+
       setState(() {
-        _isLoading = false;
+        _isLoading = false; // Stop loading indicator in case of error
       });
     }
   }
 
-  Future<Map<String, dynamic>> GetuserId() async {
-    final response = await get(
-        Uri.parse("http://192.168.1.2:8000/api/auth/customer/${widget.userId}")
+
+  Future<Map<String, dynamic>> getUserId() async {
+    final response = await http.get(
+        Uri.parse('${ApiConstants.getCustomerById}${widget.userId}') // Using the constant
     );
 
     if (response.statusCode == 200) {
@@ -73,6 +81,7 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
       throw Exception('Failed to fetch user data');
     }
   }
+
 
   void _updateUser() async {
     if (!_formKey.currentState!.validate()) {
@@ -113,7 +122,6 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
           title: Text(
             "Fill Your Profile",
             style: TextStyle(fontFamily: 'Urbanist-Bold', fontSize: 20),

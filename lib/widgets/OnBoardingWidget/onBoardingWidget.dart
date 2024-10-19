@@ -2,7 +2,7 @@ import 'package:Foodu/screens/Home.dart';
 import 'package:Foodu/auth/SignUpForm.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../utils/colors.dart';
+import '../../utils/colors.dart';
 
 class OnboardingPage extends StatelessWidget {
   final String image;

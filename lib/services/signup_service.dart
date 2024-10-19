@@ -5,9 +5,11 @@ import 'package:Foodu/auth/SignInForm.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+import '../utils/api_constants.dart';
+
 class SignUpService {
   static Future<void> signUp(String name, String email, String phone, String password, BuildContext context) async {
-    final String apiUrl = 'http://172.26.240.1:8000/api/auth/register';
+    final String apiUrl = ApiConstants.registerCustomer;
 
     try {
       final response = await http.post(

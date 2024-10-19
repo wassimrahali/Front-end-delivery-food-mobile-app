@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../widgets/onBoardingWidget.dart';
+import '../widgets/OnBoardingWidget/onBoardingWidget.dart';
 import '../utils/colors.dart';
 
 class OnBoardingScreens extends StatefulWidget {

@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../services/signin_service.dart';
+import '../utils/api_constants.dart';
 class UpdateUser {
   Future<void> updateUser(int userId, Map<String, dynamic> updateData) async {
-    final String apiUrl = "http://192.168.1.2:8000/api/auth/customer/$userId";
+    final String apiUrl = ApiConstants.updateCustomer;
     final url = Uri.parse(apiUrl); // Corrected here
 
     String? token = SignInService.token; // Get the stored token

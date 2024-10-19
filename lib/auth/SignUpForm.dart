@@ -1,14 +1,14 @@
 // lib/auth/SignUpForm.dart
 
 import 'package:Foodu/services/signup_service.dart';
-import 'package:Foodu/widgets/SocialMediaIconsWidget.dart';
-import 'package:Foodu/widgets/TextDivderWidget.dart';
+import 'package:Foodu/widgets/AuthFormWidget/SocialMediaIconsWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Foodu/auth/SignInForm.dart';
 import 'package:Foodu/utils/colors.dart';
 
-import '../widgets/HeaderWidget.dart';
+import '../widgets/AuthFormWidget/HeaderWidget.dart';
+import '../widgets/AuthFormWidget/TextDivderWidget.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});

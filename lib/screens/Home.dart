@@ -1,4 +1,5 @@
 import 'package:Foodu/screens/ProfileScreen.dart';
+import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'HomeScreen.dart';
 
@@ -34,7 +35,7 @@ class _HomeState extends State<Home> {
         child: _widgetOptions()[_selectedIndex], // Display the selected screen
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.green,
+        selectedItemColor: successColor,
         unselectedItemColor: Colors.grey[500],
         showUnselectedLabels: true,
         currentIndex: _selectedIndex, // Current selected index
