@@ -28,33 +28,28 @@ class _SignInFormState extends State<SignInFormLivrer> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-      ),
+
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              SizedBox(height: 10),
-              Row(
-                children: [
+              SizedBox(height: 20),
 
-                  ClipRRect(
-                    child: Image.asset("assets/images/logo1.png"),
-                  ),SizedBox(width: 20),
-                  Text("Foodu",style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Urbanist-SemiBold",
-                    fontSize: 40,
-                  ),)
-                ],
+              Center(child:
+                    //SizedBox(width: 15),
+                    ClipRRect(
+                      child: Image.asset("assets/images/Group.png"),
+                    ),
+
               ),
+
               SizedBox(height: 20),
               Center(
                 child: Container(child: Row(
                   children: [
                     SizedBox(width: 20),
-                    SizedBox(width: 20),
+                    //SizedBox(width: 20),
                     CircleAvatar(
                       backgroundColor: Colors.green.withOpacity(0.1),
                       radius: 30,
