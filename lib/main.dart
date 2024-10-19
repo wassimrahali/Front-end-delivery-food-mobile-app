@@ -3,10 +3,10 @@ import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'auth/SignInForm.dart';
+import 'auth/Userauth/SignInForm.dart';
 import 'screens/Home.dart';
 import 'screens/WelcomeScreens.dart';
-import 'auth/SignUpForm.dart';
+import 'auth/Userauth/SignUpForm.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

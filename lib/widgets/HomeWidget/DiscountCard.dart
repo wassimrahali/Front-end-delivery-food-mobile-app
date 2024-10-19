@@ -13,7 +13,7 @@ class DiscountCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Productsdetails(product: product)),
+          MaterialPageRoute(builder: (context) => Productsdetails(product: product, categoryName:'',)),
         );
       },
       child: Container(

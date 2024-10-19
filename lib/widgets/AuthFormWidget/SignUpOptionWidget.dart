@@ -1,6 +1,6 @@
 import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:Foodu/auth/SignUpForm.dart';
+import 'package:Foodu/auth/Userauth/SignUpForm.dart';
 
 class SignUpOptionWidget extends StatelessWidget {
   @override

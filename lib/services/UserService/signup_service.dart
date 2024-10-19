@@ -1,11 +1,11 @@
 // lib/auth/SignUpService.dart
 
 import 'dart:convert';
-import 'package:Foodu/auth/SignInForm.dart';
+import 'package:Foodu/auth/Userauth/SignInForm.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-import '../utils/api_constants.dart';
+import '../../utils/api_constants.dart';
 
 class SignUpService {
   static Future<void> signUp(String name, String email, String phone, String password, BuildContext context) async {

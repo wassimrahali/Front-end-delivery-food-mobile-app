@@ -1,14 +1,17 @@
+import 'package:Foodu/products/MenuProducts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Foodu/utils/colors.dart'; // Ensure you have your color constants available.
+import 'package:Foodu/utils/colors.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart'; // Ensure you have your color constants available.
 
 class CategoryWidget extends StatefulWidget {
-  final List<dynamic> categories; // Add a parameter for categories
+  final List<dynamic> categories;
 
   const CategoryWidget({
-    super.key,
-    required this.categories, // Make sure to require categories
-  });
+    Key? key,
+    required this.categories,
+  }) : super(key: key);
 
   @override
   State<CategoryWidget> createState() => _CategoryWidgetState();
@@ -17,9 +20,8 @@ class CategoryWidget extends StatefulWidget {
 class _CategoryWidgetState extends State<CategoryWidget> {
   @override
   Widget build(BuildContext context) {
-    // Use the categories passed to this widget
     if (widget.categories.isEmpty) {
-      return Center(child: Text('No categories available'));
+      return const Center(child: Text('No categories available'));
     }
 
     return Column(
@@ -27,13 +29,13 @@ class _CategoryWidgetState extends State<CategoryWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Categories',
               style: TextStyle(fontSize: 18, fontFamily: "Urbanist-Bold"),
             ),
             TextButton(
               onPressed: () {},
-              child: Text(
+              child: const Text(
                 'See All',
                 style: TextStyle(color: successColor, fontFamily: "Urbanist-Bold"),
               ),
@@ -48,27 +50,32 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             crossAxisCount: 4,
             childAspectRatio: 1,
           ),
-          itemCount: widget.categories.length, // Use widget.categories
+          itemCount: widget.categories.length,
           itemBuilder: (context, index) {
-            final category = widget.categories[index]; // Use widget.categories
-            return Column(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.green.withOpacity(0.1),
-                  radius: 30,
-                  child: Image.network(
-                    category['image'],
-                    height: 30,
-                    width: 30,
-                    fit: BoxFit.cover,
+            final category = widget.categories[index];
+            return InkWell(
+              onTap: () {
+                Get.to(() => MenuProducts(data: category));
+              },
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.green.withOpacity(0.1),
+                    radius: 30,
+                    child: Image.network(
+                      category['image'],
+                      height: 30,
+                      width: 30,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  category['name'],
-                  style: TextStyle(fontSize: 12),
-                ),
-              ],
+                  const SizedBox(height: 5),
+                  Text(
+                    category['name'],
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
             );
           },
         ),
