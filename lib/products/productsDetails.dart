@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-
-import '../utils/colors.dart';
+import '../utils/colors.dart'; // Ensure you have color definitions in this file
 
 class Productsdetails extends StatefulWidget {
   final Map<String, dynamic> product;
+  final String categoryName; // Add this line to hold the category name
 
-  const Productsdetails({Key? key, required this.product}) : super(key: key);
+  // Modify the constructor to accept categoryName
+  const Productsdetails({
+    Key? key,
+    required this.product,
+    required this.categoryName, // Add this line to the constructor
+  }) : super(key: key);
 
   @override
   State<Productsdetails> createState() => _ProductsdetailsState();
@@ -21,18 +26,27 @@ class _ProductsdetailsState extends State<Productsdetails> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Colors.transparent,
-        title: Text(product['name'] ?? 'Product Details',style: TextStyle(fontSize: 20,fontFamily: 'Urbanist-Bold'),), // Add title for the app bar
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          product['name'] ?? 'Product Details',
+          style: TextStyle(fontSize: 20, fontFamily: 'Urbanist-Bold', color: Colors.black),
+        ),
+        iconTheme: IconThemeData(color: Colors.black), // Back button color
       ),
       body: ListView(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                product['mainImage'] ?? 'https://via.placeholder.com/150', // Corrected image key
-                fit: BoxFit.cover, // Ensures image fits nicely in the container
-              ), // Product image
+              Container(
+                height: 300,
+                width: double.infinity,
+                child: Image.network(
+                  product['mainImage'] ?? 'https://via.placeholder.com/150',
+                  fit: BoxFit.cover,
+                ),
+              ),
               SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -46,7 +60,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                   child: Text(
-                    product['category']['name'] ?? 'Category', // Updated to access category name
+                    widget.categoryName, // Use the categoryName field here
                     style: TextStyle(
                       fontFamily: "Urbanist-Regular",
                       fontSize: 18,
@@ -58,7 +72,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Text(
-                  product['name'] ?? 'Product Name', // Product name
+                  product['name'] ?? 'Product Name',
                   style: TextStyle(
                     fontFamily: 'Urbanist-Bold',
                     fontSize: 20,
@@ -68,7 +82,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Text(
-                  product['description'] ?? 'No description available', // Product description
+                  product['description'] ?? 'No description available',
                   style: TextStyle(
                     fontFamily: 'Urbanist-Regular',
                     fontSize: 17,

@@ -1,14 +1,17 @@
 // lib/auth/SignUpForm.dart
 
-import 'package:Foodu/services/signup_service.dart';
+import 'package:Foodu/services/UserService/signup_service.dart';
 import 'package:Foodu/widgets/AuthFormWidget/SocialMediaIconsWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:Foodu/auth/SignInForm.dart';
+import 'package:Foodu/auth/Userauth/SignInForm.dart';
 import 'package:Foodu/utils/colors.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-import '../widgets/AuthFormWidget/HeaderWidget.dart';
-import '../widgets/AuthFormWidget/TextDivderWidget.dart';
+import '../../widgets/AuthFormWidget/HeaderWidget.dart';
+import '../../widgets/AuthFormWidget/TextDivderWidget.dart';
+import '../Livrerauth/SignInFormLivrer.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -163,7 +166,14 @@ class _SignUpFormState extends State<SignUpForm> {
                               style: TextStyle(color: disabledButtonColor, fontFamily: "Urbanist-SemiBold"),
                               textAlign: TextAlign.center,
                             ),
-                          )
+
+                          ),
+                          MaterialButton(onPressed: (){
+                            Get.to(SignInFormLivrer());
+                          },
+                            color: Colors.blue,
+                            child: Text("click me"),
+                          ),
                         ],
                       ),
                     ],

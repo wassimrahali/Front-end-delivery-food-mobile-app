@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:http/http.dart' as http;
-import '../screens/Home.dart';
-import '../utils/api_constants.dart'; // Make sure to import the JWT decoder package
+import '../../screens/Home.dart';
+import '../../utils/api_constants.dart'; // Make sure to import the JWT decoder package
 
 class SignInService {
   static String? _token; // Store token here

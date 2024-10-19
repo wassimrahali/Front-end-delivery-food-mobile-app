@@ -15,7 +15,8 @@ class DiscountSectionWidget extends StatefulWidget {
 
 class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
   // Added products list declaration
-  final List<Map<String, dynamic>> products = []; // Initialize this with your data
+  final List<Map<String, dynamic>> products = [];
+  // Initialize this with your data
 
   @override
   void initState() {
@@ -101,7 +102,7 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Productsdetails(product: product),
+            builder: (context) => Productsdetails(product: product, categoryName: '',),
           ),
         );
       },
