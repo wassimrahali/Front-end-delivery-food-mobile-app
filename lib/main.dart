@@ -1,3 +1,4 @@
+import 'package:Foodu/RoleScreen.dart';
 import 'package:Foodu/screens/HomeScreen.dart';
 import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -42,12 +43,16 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: isFirstTime
-          ? WelcomeScreens() // Show Welcome/Onboarding screen
-          : (token != null && token!.isNotEmpty)
-          ? Homescreen(userId: 2)
-          : SignInForm(), // If no token, show SignIn page
+      home:WelcomeScreens()
     );
   }
 }
 
+/*
+
+ isFirstTime
+          ? WelcomeScreens() // Show Welcome/Onboarding screen
+          : (token != null && token!.isNotEmpty)
+          ? RoleScreen()
+          : Homescreen(userId: 2), // If no token, show SignIn page
+ */

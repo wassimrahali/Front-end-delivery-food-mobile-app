@@ -1,3 +1,4 @@
+import 'package:Foodu/RoleScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../widgets/OnBoardingWidget/onBoardingWidget.dart';
@@ -17,7 +18,6 @@ class _OnBoardingScreensState extends State<OnBoardingScreens> {
   @override
   Widget build(BuildContext context) {
     // Get screen dimensions
-    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(

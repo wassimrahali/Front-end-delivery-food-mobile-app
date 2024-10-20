@@ -168,12 +168,6 @@ class _SignUpFormState extends State<SignUpForm> {
                             ),
 
                           ),
-                          MaterialButton(onPressed: (){
-                            Get.to(SignInFormLivrer());
-                          },
-                            color: Colors.blue,
-                            child: Text("click me"),
-                          ),
                         ],
                       ),
                     ],

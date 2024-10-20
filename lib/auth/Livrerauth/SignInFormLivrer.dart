@@ -34,50 +34,18 @@ class _SignInFormState extends State<SignInFormLivrer> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: 10,),
+              Center(child: Image.asset("assets/images/3d.png")),
 
+              SizedBox(height: 10),
               Center(child:
-                    //SizedBox(width: 15),
-                    ClipRRect(
-                      child: Image.asset("assets/images/Group.png"),
-                    ),
+              //SizedBox(width: 15),
+              ClipRRect(
+                child: Image.asset("assets/images/Group.png"),
+              ),
 
               ),
 
-              SizedBox(height: 20),
-              Center(
-                child: Container(child: Row(
-                  children: [
-                    SizedBox(width: 20),
-                    //SizedBox(width: 20),
-                    CircleAvatar(
-                      backgroundColor: Colors.green.withOpacity(0.1),
-                      radius: 30,
-                      child: Image.asset(
-                        "assets/images/livraison-rapide.png",
-                        height: 80,
-                        width: 80,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "      Welcome Back, Deliverer!\n       Sign in to your account ",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: "Urbanist-SemiBold"
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-
-                  ],
-                ),
-                ),
-              ),
-              SizedBox(height: 20),
-
-              SizedBox(height: 20),
               Form(
                 key: _formKey,
                 child: Padding(
