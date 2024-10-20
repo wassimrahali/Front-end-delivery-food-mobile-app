@@ -2,13 +2,9 @@ import 'package:Foodu/utils/colors.dart';
 import 'package:Foodu/widgets/AuthFormWidget/SignInButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-
 import '../services/updateUser_service.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import '../utils/api_constants.dart';
-
 
 class UpdateUserScreen extends StatefulWidget {
   final int userId;
@@ -28,7 +24,6 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   final TextEditingController _phoneController = TextEditingController();
 
   bool _isLoading = true;
-  late final int Id;
   String userName = '';
 
   // Regular expressions for validation
@@ -54,7 +49,6 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
         _isLoading = false; // Stop loading indicator
       });
     } catch (e) {
-      // Show an error message in a SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to load user data: $e'))
       );
@@ -65,33 +59,20 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
     }
   }
 
-
   Future<Map<String, dynamic>> getUserId() async {
     final response = await http.get(
         Uri.parse('${ApiConstants.getCustomerById}${widget.userId}') // Using the constant
     );
 
     if (response.statusCode == 200) {
-      final userData = jsonDecode(response.body);
-      setState(() {
-        userName = userData['name'];
-      });
-      return userData;
+      return jsonDecode(response.body);
     } else {
       throw Exception('Failed to fetch user data');
     }
   }
 
-
   void _updateUser() async {
     if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
-    if (widget.userId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('User not logged in'))
-      );
       return;
     }
 
@@ -100,12 +81,12 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
       'email': _emailController.text.trim(),
       'phone': _phoneController.text.trim(),
       if (_passwordController.text.isNotEmpty)
-        'password': _passwordController.text,
+        'password': _passwordController.text.trim(),
     };
 
     try {
       setState(() => _isLoading = true);
-      await _userService.updateUser(widget.userId, updatedData);
+      await _userService.updateUser(widget.userId.toString(), updatedData);
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('User updated successfully!'))
       );
@@ -122,10 +103,10 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            "Fill Your Profile",
-            style: TextStyle(fontFamily: 'Urbanist-Bold', fontSize: 20),
-          )
+        title: Text(
+          "Fill Your Profile",
+          style: TextStyle(fontFamily: 'Urbanist-Bold', fontSize: 20),
+        ),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator(
@@ -141,8 +122,8 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                 Center(child: Image.asset("assets/images/profile.png")),
                 SizedBox(height: 30),
                 Text(
-                    userName.isNotEmpty ? userName : 'Loading...',
-                    style: TextStyle(fontFamily: "Urbanist-Bold", fontSize: 22)
+                  userName.isNotEmpty ? userName : 'Loading...',
+                  style: TextStyle(fontFamily: "Urbanist-Bold", fontSize: 22),
                 ),
                 SizedBox(height: 30),
                 TextFormField(
@@ -186,7 +167,6 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                   ),
                 ),
                 SizedBox(height: 40),
-
                 TextFormField(
                   controller: _emailController,
                   validator: (value) {
@@ -228,7 +208,6 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                   ),
                 ),
                 SizedBox(height: 40),
-
                 TextFormField(
                   controller: _phoneController,
                   validator: (value) {
@@ -270,26 +249,23 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                   ),
                 ),
                 SizedBox(height: 40),
-
                 TextFormField(
                   controller: _passwordController,
                   validator: (value) {
-                    if (value != null && value.isNotEmpty) {
-                      if (!passwordRegex.hasMatch(value)) {
-                        return 'Password must be at least 8 characters with letters and numbers';
-                      }
+                    if (value != null && value.isNotEmpty && !passwordRegex.hasMatch(value)) {
+                      return 'Password must be at least 8 characters and contain at least one letter and one number';
                     }
                     return null;
                   },
                   decoration: InputDecoration(
-                    hintText: "Enter new password",
-                    labelText: "Password (optional)",
+                    hintText: "Password",
+                    labelText: "Password",
                     hintStyle: TextStyle(
                       fontSize: 13,
                       fontFamily: 'Urbanist-Regular',
                       color: Colors.grey,
                     ),
-                    prefixIcon: Icon(Icons.password, color: successColor),
+                    prefixIcon: Icon(Icons.lock_outline, color: successColor),
                     filled: true,
                     fillColor: Colors.grey[100],
                     enabledBorder: OutlineInputBorder(
@@ -311,23 +287,15 @@ class _UpdateUserScreenState extends State<UpdateUserScreen> {
                   ),
                   obscureText: true,
                 ),
-
-                SizedBox(height: 40),
-                SignInButtonWidget(onPressed: _updateUser, text: "Update")
+                SizedBox(height: 30),
+                SignInButtonWidget(
+                  onPressed: _updateUser, text: 'Update',
+                ),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _phoneController.dispose();
-    super.dispose();
   }
 }

@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../screens/Home.dart';
-import '../../utils/api_constants.dart'; // Make sure to import the JWT decoder package
+import '../../utils/api_constants.dart';
 
 class SignInService {
   static String? _token; // Store token here
@@ -30,6 +30,12 @@ class SignInService {
         _token = responseData['token']; // Store the token
         Map<String, dynamic> decodedToken = JwtDecoder.decode(_token!);
         _userId = decodedToken['id']; // Store user ID
+
+        // Save token and user ID in SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', _token!); // Save the token
+        await prefs.setInt('userId', _userId!); // Save the user ID
+
         print('Login successful: ${decodedToken}');
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(id: _userId!)));
       } else {

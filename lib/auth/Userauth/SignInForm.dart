@@ -1,17 +1,15 @@
-import 'package:Foodu/services/UserService/signin_service.dart';
 import 'package:flutter/material.dart';
+import 'package:Foodu/services/UserService/signin_service.dart';
 import '../../widgets/AuthFormWidget/HeaderWidget.dart';
 import '../../widgets/AuthFormWidget/PasswordFieldWidget.dart';
 import '../../widgets/AuthFormWidget/SignInButtonWidget.dart';
 import '../../widgets/AuthFormWidget/SignUpOptionWidget.dart';
 import '../../widgets/AuthFormWidget/SocialMediaIconsWidget.dart';
-
 import '../../widgets/AuthFormWidget/TextDivderWidget.dart';
 import '../../widgets/AuthFormWidget/phoneFieldWidget.dart';
 
-
 class SignInForm extends StatefulWidget {
-  const SignInForm({super.key});
+  const SignInForm({Key? key}) : super(key: key);
 
   @override
   State<SignInForm> createState() => _SignInFormState();
@@ -26,8 +24,7 @@ class _SignInFormState extends State<SignInForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -44,7 +41,8 @@ class _SignInFormState extends State<SignInForm> {
                       SizedBox(height: 20),
                       PasswordFieldWidget(onChanged: (value) => password = value),
                       SizedBox(height: 40),
-                      SignInButtonWidget(text: 'Sign In',
+                      SignInButtonWidget(
+                        text: 'Sign In',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             await SignInService.login(phone!, password!, context);
@@ -68,7 +66,3 @@ class _SignInFormState extends State<SignInForm> {
     );
   }
 }
-
-
-
-
