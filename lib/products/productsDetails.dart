@@ -5,7 +5,6 @@ class Productsdetails extends StatefulWidget {
   final Map<String, dynamic> product;
   final String categoryName; // Add this line to hold the category name
 
-  // Modify the constructor to accept categoryName
   const Productsdetails({
     Key? key,
     required this.product,
@@ -23,6 +22,8 @@ class _ProductsdetailsState extends State<Productsdetails> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
+    final double price = double.tryParse(product['price']?.toString() ?? '0') ?? 0; // Get the product price as a double
+    final double totalPrice = price * quantity; // Calculate total price
 
     return Scaffold(
       appBar: AppBar(
@@ -53,20 +54,20 @@ class _ProductsdetailsState extends State<Productsdetails> {
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.black,
+                      color: Colors.black54,
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(50),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                   child: Text(
-                    product['category'] != null ? product['category']['name'] : widget.categoryName, // Check if the category exists and get its name
+                    // Hello you can acccess to category with widget ande with map
+                    product['category'] != null ? product['category']['name'] : widget.categoryName,
                     style: TextStyle(
                       fontFamily: "Urbanist-Regular",
                       fontSize: 18,
                     ),
                   ),
-
                 ),
               ),
               SizedBox(height: 20),
@@ -137,10 +138,10 @@ class _ProductsdetailsState extends State<Productsdetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '\$${product['price'] ?? '0'}',
+                            '${totalPrice.toStringAsFixed(3)} DT',
                             style: TextStyle(
-                              fontSize: 22,
-                              fontFamily: 'Urbanist-Regular',
+                              fontSize: 20,
+                              fontFamily: 'Urbanist-SemiBold',
                             ),
                           ),
                           Container(
