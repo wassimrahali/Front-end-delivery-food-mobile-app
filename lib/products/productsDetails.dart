@@ -3,7 +3,7 @@ import '../utils/colors.dart'; // Ensure you have color definitions in this file
 
 class Productsdetails extends StatefulWidget {
   final Map<String, dynamic> product;
-  final String categoryName; // Add this line to hold the category name
+  final String categoryName; // Hold the category name
 
   const Productsdetails({
     Key? key,
@@ -16,9 +16,19 @@ class Productsdetails extends StatefulWidget {
 }
 
 class _ProductsdetailsState extends State<Productsdetails> {
-  String _selectedSize = '10"'; // Initial selected size
+  late String _selectedSize; // Declare the selected size
   int quantity = 1;
 
+  @override
+  void initState() {
+    super.initState();
+    // Initialize _selectedSize with the first size in the product['sizes'] if available
+    if (widget.product['sizes'] != null && widget.product['sizes'].isNotEmpty) {
+      _selectedSize = widget.product['sizes'][0]; // Set to the first size
+    } else {
+      _selectedSize = '10"'; // Fallback to a default size if no sizes are available
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
@@ -27,13 +37,10 @@ class _ProductsdetailsState extends State<Productsdetails> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
         title: Text(
           product['name'] ?? 'Product Details',
           style: TextStyle(fontSize: 20, fontFamily: 'Urbanist-Bold', color: Colors.black),
         ),
-        iconTheme: IconThemeData(color: Colors.black), // Back button color
       ),
       body: ListView(
         children: [
@@ -50,27 +57,25 @@ class _ProductsdetailsState extends State<Productsdetails> {
               ),
               SizedBox(height: 30),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
+                padding: const EdgeInsets.all(10),
                 child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black54,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                   child: Text(
-                    // Hello you can acccess to category with widget ande with map
                     product['category'] != null ? product['category']['name'] : widget.categoryName,
                     style: TextStyle(
                       fontFamily: "Urbanist-Regular",
                       fontSize: 18,
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+
+              SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Text(
@@ -96,34 +101,30 @@ class _ProductsdetailsState extends State<Productsdetails> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildIconText('assets/images/Motos.png', '20min'),
-                  _buildIconText('assets/images/Star 1.png', '4.5'),
-                  _buildIconText('assets/images/Clock.png', '5pm'),
+                  _buildIconText('assets/images/Motos.png', product['preparationDuration'] ?? '20min'),
+                  _buildIconText('assets/images/Star 1.png', product['rating'] ?? '4.5'), // Use the product rating
+                  _buildIconText('assets/images/Clock.png', '5pm'), // Update this if needed
+
                 ],
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18.0),
-                    child: Text(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
                       "Size: ",
                       style: TextStyle(
-                        fontFamily: "Urbanist-Regular",
-                        fontSize: 18,
+                          fontFamily: 'Urbanist-Bold',
+                          fontSize: 20,
                       ),
                     ),
-                  ),
-                  SizedBox(width: 20),
-                  _buildSizeButton('10"'),
-                  SizedBox(width: 10),
-                  _buildSizeButton('12"'),
-                  SizedBox(width: 10),
-                  _buildSizeButton('14"'),
-                ],
+                    ...product['sizes'].map<Widget>((size) => _buildSizeButton(size)).toList(),
+                  ],
+                ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Container(
@@ -146,13 +147,13 @@ class _ProductsdetailsState extends State<Productsdetails> {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                              color: grayScale,
-                              borderRadius: BorderRadius.circular(20),
+                              color: successColor,
+                              borderRadius: BorderRadius.circular(30),
                             ),
                             child: Row(
                               children: [
                                 IconButton(
-                                  icon: Icon(Icons.remove_circle_outline_outlined, color: Colors.grey),
+                                  icon: Icon(Icons.remove, color: Colors.white),
                                   onPressed: () {
                                     if (quantity > 1) {
                                       setState(() {
@@ -163,10 +164,10 @@ class _ProductsdetailsState extends State<Productsdetails> {
                                 ),
                                 Text(
                                   '$quantity',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Urbanist-Bold"),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.add_circle, color: Colors.grey[200]),
+                                  icon: Icon(Icons.add, color: Colors.grey[200]),
                                   onPressed: () {
                                     setState(() {
                                       quantity++;
@@ -248,13 +249,13 @@ class _ProductsdetailsState extends State<Productsdetails> {
         });
       },
       child: Container(
+        alignment: Alignment.center,
         height: 40,
         width: 40,
         decoration: BoxDecoration(
           color: isSelected ? successColor : Colors.grey[300],
           borderRadius: BorderRadius.circular(20),
         ),
-        alignment: Alignment.center,
         child: Text(
           size,
           style: TextStyle(
