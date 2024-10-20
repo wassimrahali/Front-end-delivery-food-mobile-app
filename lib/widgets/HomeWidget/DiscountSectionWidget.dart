@@ -121,7 +121,7 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
               Image.network(
                 product['mainImage'],
                 fit: BoxFit.cover,
-                height: 200, // Set the height of the image
+                height: double.infinity, // Set the height of the image
                 width: double.infinity, // Set width to fill the container
               ),
               Positioned(
