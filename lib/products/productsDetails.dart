@@ -60,12 +60,13 @@ class _ProductsdetailsState extends State<Productsdetails> {
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                   child: Text(
-                    widget.categoryName, // Use the categoryName field here
+                    product['category'] != null ? product['category']['name'] : widget.categoryName, // Check if the category exists and get its name
                     style: TextStyle(
                       fontFamily: "Urbanist-Regular",
                       fontSize: 18,
                     ),
                   ),
+
                 ),
               ),
               SizedBox(height: 20),

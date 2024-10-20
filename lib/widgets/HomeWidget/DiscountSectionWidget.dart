@@ -33,6 +33,7 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
         // Update the state with the fetched product data
         setState(() {
           products.addAll(List<Map<String, dynamic>>.from(jsonDecode(response.body)));
+          print(response.body);
         });
       } else {
         throw Exception('Failed to fetch products');
@@ -170,7 +171,7 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        product['description'] ?? 'No description available',
+                        product['category'] != null ? product['category']['name'] : 'No description available' ,
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 14,

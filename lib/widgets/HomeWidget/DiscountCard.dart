@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../../products/productsDetails.dart';
 
 class DiscountCard extends StatelessWidget {
-  final Map<String, dynamic> product; // Declare product variable
+  final Map<String, dynamic> product;
+  final Map<String, dynamic> data;
 
-  const DiscountCard({super.key, required this.product}); // Constructor
+  const DiscountCard({Key? key, required this.data, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final categoryName = data["name"]; // Changed from widget.data to data
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Productsdetails(product: product, categoryName:'',)),
-        );
+        Get.to(() => Productsdetails(product: product, categoryName: categoryName));
       },
       child: Container(
         height: 200,
@@ -89,47 +90,4 @@ class DiscountCard extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget _buildDiscountSection(BuildContext context, List<Map<String, dynamic>> products) {
-  if (products.isEmpty) {
-    return const Center(child: Text('No products available'));
-  }
-
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text(
-            'Discount Guaranteed! 👌',
-            style: TextStyle(fontSize: 18, fontFamily: "Urbanist-Bold"),
-          ),
-          TextButton(
-            onPressed: () {
-              // Implement 'See All' button functionality
-            },
-            child: const Text(
-              'See All',
-              style: TextStyle(color: Colors.green, fontFamily: "Urbanist-Bold"), // Assuming successColor is green
-            ),
-          ),
-        ],
-      ),
-      const SizedBox(height: 10),
-      Row(
-        children: [
-          Expanded(
-            child: DiscountCard(product: products[0]),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: DiscountCard(
-              product: products.length > 1 ? products[1] : products[0],
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
 }

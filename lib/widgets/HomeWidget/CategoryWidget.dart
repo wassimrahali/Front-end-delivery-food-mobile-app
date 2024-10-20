@@ -1,9 +1,7 @@
-import 'package:Foodu/products/MenuProducts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Foodu/utils/colors.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart'; // Ensure you have your color constants available.
+import 'package:Foodu/products/MenuProducts.dart';
 
 class CategoryWidget extends StatefulWidget {
   final List<dynamic> categories;
@@ -55,7 +53,12 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             final category = widget.categories[index];
             return InkWell(
               onTap: () {
-                Get.to(() => MenuProducts(data: category));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MenuProducts(data: category),
+                  ),
+                );
               },
               child: Column(
                 children: [
