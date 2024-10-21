@@ -31,7 +31,6 @@ class _SignUpFormState extends State<SignUpForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           child: Column(

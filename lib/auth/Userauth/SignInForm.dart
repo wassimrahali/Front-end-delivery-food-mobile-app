@@ -24,7 +24,6 @@ class _SignInFormState extends State<SignInForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
