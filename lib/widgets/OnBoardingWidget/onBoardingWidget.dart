@@ -1,3 +1,4 @@
+import 'package:Foodu/RoleScreen.dart';
 import 'package:Foodu/screens/Home.dart';
 import 'package:Foodu/auth/Userauth/SignUpForm.dart';
 import 'package:flutter/material.dart';
@@ -69,10 +70,11 @@ class OnboardingPage extends StatelessWidget {
                 } else {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => SignUpForm()),
+                    MaterialPageRoute(builder: (context) => RoleScreen()),
                   );
                 }
                 print("Get Started");
+
               } else {
                 // Navigate to the next onboarding page
                 pageController.nextPage(

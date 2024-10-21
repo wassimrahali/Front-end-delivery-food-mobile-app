@@ -5,6 +5,7 @@ import 'HomeScreen.dart';
 
 class Home extends StatefulWidget {
   final int id;
+
   const Home({Key? key, required this.id}) : super(key: key);
 
   @override
@@ -16,15 +17,15 @@ class _HomeState extends State<Home> {
 
   List<Widget> _widgetOptions() {
     return [
-      Homescreen(userId: widget.id),
+      Homescreen(userId: widget.id), // Correctly accessing the user ID
       OrdersScreen(),
-      UpdateUserScreen(userId:widget.id,)
+      UpdateUserScreen(userId: widget.id), // Passing user ID correctly
     ];
   }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = index; // Update selected index
     });
   }
 
@@ -64,4 +65,3 @@ class OrdersScreen extends StatelessWidget {
     );
   }
 }
-

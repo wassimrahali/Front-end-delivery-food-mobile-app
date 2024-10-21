@@ -1,11 +1,16 @@
+import 'package:Foodu/utils/colors.dart'; // Assuming successColor is defined here
 import 'package:flutter/material.dart';
 
 class SignInButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
-  final String text; // Add this line to declare the text variable
+  final String text;
 
-  // Include the text parameter in the constructor
-  SignInButtonWidget({required this.onPressed, required this.text});
+  // Constructor with required text and onPressed parameters
+  const SignInButtonWidget({
+    required this.onPressed,
+    required this.text,
+    Key? key,
+  }) : super(key: key); // Use super to pass the key to the parent class
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +26,15 @@ class SignInButtonWidget extends StatelessWidget {
       ),
       child: Ink(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF4CAF50), Color(0xFF45A049)],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
+          color: successColor, // Assuming successColor is defined in your colors file
           borderRadius: BorderRadius.circular(28),
         ),
         child: Container(
-          constraints: BoxConstraints(minWidth: 200, minHeight: 56),
+          constraints: const BoxConstraints(minWidth: 200, minHeight: 56),
           alignment: Alignment.center,
           child: Text(
-            text, // Now using the passed text variable
-            style: TextStyle(
+            text,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.w500,

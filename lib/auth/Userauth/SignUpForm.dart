@@ -31,7 +31,6 @@ class _SignUpFormState extends State<SignUpForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -167,12 +166,6 @@ class _SignUpFormState extends State<SignUpForm> {
                               textAlign: TextAlign.center,
                             ),
 
-                          ),
-                          MaterialButton(onPressed: (){
-                            Get.to(SignInFormLivrer());
-                          },
-                            color: Colors.blue,
-                            child: Text("click me"),
                           ),
                         ],
                       ),
