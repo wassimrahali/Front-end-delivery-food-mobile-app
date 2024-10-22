@@ -1,4 +1,3 @@
-import 'package:Foodu/RoleScreen.dart';
 import 'package:Foodu/screens/Home.dart';
 import 'package:Foodu/auth/Userauth/SignUpForm.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +22,22 @@ class OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen width and height
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(image, height: 500, fit: BoxFit.cover),
+          // Responsive Image
+          Image.asset(
+            image,
+            width: screenWidth * 0.9, // 80% of the screen's width
+            height: screenHeight * 0.7, // Adjust height relative to screen size
+            fit: BoxFit.cover,
+          ),
           const SizedBox(height: 20),
           Text(
             text,
@@ -65,16 +74,15 @@ class OnboardingPage extends StatelessWidget {
                 if (isLoggedIn) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => Home(id: 5,)),
+                    MaterialPageRoute(builder: (context) => Home(id: 5)),
                   );
                 } else {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => RoleScreen()),
+                    MaterialPageRoute(builder: (context) => SignUpForm()),
                   );
                 }
                 print("Get Started");
-
               } else {
                 // Navigate to the next onboarding page
                 pageController.nextPage(
@@ -114,7 +122,6 @@ class OnboardingPage extends StatelessWidget {
               ),
             ),
           )
-
         ],
       ),
     );
