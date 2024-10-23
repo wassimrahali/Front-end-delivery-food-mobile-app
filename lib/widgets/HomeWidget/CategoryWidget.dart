@@ -72,7 +72,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 2),
                   Text(
                     category['name'],
                     style: const TextStyle(fontSize: 12),

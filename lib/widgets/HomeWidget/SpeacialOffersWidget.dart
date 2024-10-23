@@ -34,10 +34,10 @@ class _SpeacialOffersWidgetState extends State<SpeacialOffersWidget> {
               children: [
                 SizedBox(height: 25),
                 Text(
-                  "30% \n discount only \n valid for today!",
+                  "30% \ndiscount only \nvalid for today!",
                   style: TextStyle(
                       fontFamily: "Lucky-font",
-                      fontSize: 20,
+                      fontSize: 21,
                       color: Colors.white
                   ),
                 ),

@@ -21,13 +21,19 @@ class _MenuProductsState extends State<MenuProducts> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(categoryName),
+        title: Text(categoryName,style: TextStyle(fontSize: 20, fontFamily: 'Urbanist-Bold', color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(
           color: Colors.black,
+
+
         ),
       ),
       body: Container(
+
         decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(16),
         ),
         child: ListView(
@@ -43,7 +49,7 @@ class _MenuProductsState extends State<MenuProducts> {
                       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: successColor, width: 2),
+                        border: Border.all(color: successColor, width: 1),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -56,10 +62,9 @@ class _MenuProductsState extends State<MenuProducts> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
-                              child: Image.asset("assets/images/Filter.png"),
+                              child:Icon(Icons.filter_alt_outlined,color: successColor,),
                             ),
                           ),
-                          const SizedBox(width: 8),
                           const Text(
                             "Filter",
                             style: TextStyle(
@@ -80,7 +85,7 @@ class _MenuProductsState extends State<MenuProducts> {
                       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: successColor, width: 2),
+                        border: Border.all(color: successColor, width: 1),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -93,10 +98,9 @@ class _MenuProductsState extends State<MenuProducts> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(50),
-                              child: Image.asset("assets/images/Sort.png"),
+                              child: Icon(Icons.sort,color:successColor ,)
                             ),
                           ),
-                          const SizedBox(width: 8),
                           const Text(
                             "Sort",
                             style: TextStyle(
@@ -116,20 +120,32 @@ class _MenuProductsState extends State<MenuProducts> {
                       padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: successColor, width: 2),
+                        border: Border.all(color: successColor, width: 1),
                       ),
-                      child: Center( // Centers the text vertically and horizontally
-                        child: Text(
-                          "Promo",
-                          style: TextStyle(
-                            fontFamily: "Urbanist-Medium",
-                            fontSize: 14,
-                            color: successColor,
-                          ),
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min, // Ensures the row takes up only the necessary space
+                          children: [
+                            Icon(
+                              Icons.local_offer, // Promotion icon
+                              size: 16,
+                              color: successColor,
+                            ),
+                            const SizedBox(width: 5), // Adds a small space between the icon and text
+                            Text(
+                              "Promo",
+                              style: TextStyle(
+                                fontFamily: "Urbanist-Medium",
+                                fontSize: 14,
+                                color: successColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
+
                 ],
               ),
             ),
@@ -147,6 +163,7 @@ class _MenuProductsState extends State<MenuProducts> {
                       print(product["name"]); // Add this line to see what product data looks like
                       Get.to(() => Productsdetails(product: product, categoryName: categoryName));
                   },child:Card(
+                  elevation: 0,
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
@@ -191,13 +208,13 @@ class _MenuProductsState extends State<MenuProducts> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Icon(Icons.delivery_dining, color: Colors.green, size: 16),
+                                  const Icon(Icons.delivery_dining, color: successColor, size: 22),
                                   Text(
-                                    '\$${product['price']}',
+                                    '${product['price']} DT',
                                     style: const TextStyle(
                                       fontSize: 14,
-                                      fontFamily: "Urbanist-Medium",
-                                      color: Colors.black,
+                                      fontFamily: "Urbanist-Bold",
+                                      color: successColor,
                                     ),
                                   ),
                                 ],

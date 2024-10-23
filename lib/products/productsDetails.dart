@@ -55,7 +55,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Container(
@@ -75,7 +75,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
                 ),
               ),
 
-              SizedBox(height: 30),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Text(
