@@ -34,8 +34,8 @@ class OnboardingPage extends StatelessWidget {
           // Responsive Image
           Image.asset(
             image,
-            width: screenWidth * 0.9, // 80% of the screen's width
-            height: screenHeight * 0.7, // Adjust height relative to screen size
+            width: screenWidth * 0.8, // 80% of the screen's width
+            height: screenHeight * 0.5, // Adjust height relative to screen size
             fit: BoxFit.cover,
           ),
           const SizedBox(height: 20),
