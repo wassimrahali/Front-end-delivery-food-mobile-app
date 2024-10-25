@@ -1,3 +1,4 @@
+import 'package:Foodu/widgets/AuthFormWidget/ForgetPasswordWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:Foodu/services/UserService/signin_service.dart';
 import '../../widgets/AuthFormWidget/HeaderWidget.dart';
@@ -54,6 +55,7 @@ class _SignInFormState extends State<SignInForm> {
                       SocialMediaIconsWidget(),
                       SizedBox(height: 40),
                       SignUpOptionWidget(),
+                      Forgetpasswordwidget()
                     ],
                   ),
                 ),

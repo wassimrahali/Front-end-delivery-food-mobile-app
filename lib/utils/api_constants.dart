@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String baseUrl = 'http://192.168.1.252:8000/api';
+  static const String baseUrl = 'http://192.168.1.33:8000/api';
 
   // Auth Endpoints
   static const String registerCustomer = '$baseUrl/auth/register';
@@ -7,6 +7,9 @@ class ApiConstants {
   static const String loginCustomer = '$baseUrl/auth/login';
   static const String loginAdmin = '$baseUrl/auth/loginAdmin';
   static const String loginDeliveryMan = '$baseUrl/auth/loginDileveryMan';
+  static const String sendEmail = '$baseUrl/auth/sendVerificationCode';
+  static const String resetPassword = '$baseUrl/auth/resetPassword';
+  static const String updatePasswordByEmail = '$baseUrl/auth/updatePasswordByEmail';
 
   // Customer Endpoints
   static const String getAllCustomers = '$baseUrl/auth/customers';
