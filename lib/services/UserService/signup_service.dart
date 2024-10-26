@@ -1,5 +1,3 @@
-// lib/auth/SignUpService.dart
-
 import 'dart:convert';
 import 'package:Foodu/auth/Userauth/SignInForm.dart';
 import 'package:http/http.dart' as http;
