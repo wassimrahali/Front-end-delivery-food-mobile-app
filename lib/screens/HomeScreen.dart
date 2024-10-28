@@ -125,7 +125,7 @@ class _HomescreenState extends State<Homescreen> {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           children: [
-            HeaderWidget(userName: userName),
+            HeaderWidget(userName: userName, userId: widget.userId,),
             const SizedBox(height: 20),
             SearchbarWidget(),
             const SizedBox(height: 20),

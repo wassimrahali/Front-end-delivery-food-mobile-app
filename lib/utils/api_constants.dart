@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String baseUrl = 'http://192.168.1.33:8000/api';
+  static const String baseUrl = 'http://192.168.23.42:8000/api';
 
   // Auth Endpoints
   static const String registerCustomer = '$baseUrl/auth/register';
@@ -36,4 +36,6 @@ class ApiConstants {
   static const String getCategoryById = '$baseUrl/categories/'; // Append {id} dynamically
   static const String updateCategory = '$baseUrl/categories/'; // Append {id} dynamically
   static const String deleteCategory = '$baseUrl/categories/'; // Append {id} dynamically
+//Order Endpoints
+  static const String createOrder = '$baseUrl/orders';
 }

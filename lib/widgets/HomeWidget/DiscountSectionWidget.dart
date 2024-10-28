@@ -103,7 +103,7 @@ class _DiscountSectionWidgetState extends State<DiscountSectionWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Productsdetails(product: product, categoryName: '',),
+            builder: (context) => Productsdetails(product: product, categoryName: '', quantity: null,),
           ),
         );
       },

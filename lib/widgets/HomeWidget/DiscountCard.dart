@@ -15,7 +15,7 @@ class DiscountCard extends StatelessWidget {
     final categoryName = data["name"]; // Changed from widget.data to data
     return GestureDetector(
       onTap: () {
-        Get.to(() => Productsdetails(product: product, categoryName: categoryName));
+        Get.to(() => Productsdetails(product: product, categoryName: categoryName, quantity: null,));
       },
       child: Container(
         height: 200,

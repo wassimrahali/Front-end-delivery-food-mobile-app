@@ -1,8 +1,10 @@
 import 'package:Foodu/auth/Userauth/VerifyResetCodePage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'auth/Userauth/SignInForm.dart';
+import 'models/Card.model.dart';
 import 'screens/Home.dart';
 import 'screens/WelcomeScreens.dart';
 import 'utils/api_constants.dart'; // Make sure to import your API constants
@@ -20,7 +22,10 @@ void main() async {
   String? token = prefs.getString('token');
   int? userId = prefs.getInt('userId'); // Retrieve user ID from SharedPreferences
 
-  runApp(MyApp(isFirstTime: isFirstTime, token: token, userId: userId));
+  runApp(ChangeNotifierProvider(
+    create: (context) => CartProvider(),
+    child: MyApp(isFirstTime: isFirstTime, token: token, userId: userId),
+  ),);
 }
 
 class MyApp extends StatelessWidget {
