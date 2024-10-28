@@ -1,12 +1,17 @@
+import 'package:Foodu/Cartscreen/Cartscreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class HeaderWidget extends StatefulWidget {
-  final String userName; // Add a parameter for userName
+  final String userName;
 
+  final int userId; // Add a parameter for userName
   const HeaderWidget({
     super.key,
-    required this.userName, // Require userName
+    required this.userName,
+    required this.userId,// Require userName
   });
 
   @override
@@ -58,7 +63,9 @@ class _HeaderWidgetState extends State<HeaderWidget> {
             ),
             IconButton(
               icon: const Icon(Icons.shopping_bag_outlined),
-              onPressed: () {},
+              onPressed: () {
+                Get.to(Cardscreen(userId: widget.userId));
+              },
             ),
           ],
         ),

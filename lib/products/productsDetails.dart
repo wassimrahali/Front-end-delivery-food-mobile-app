@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/Card.model.dart';
 import '../utils/colors.dart'; // Ensure you have color definitions in this file
 
 class Productsdetails extends StatefulWidget {
   final Map<String, dynamic> product;
-  final String categoryName; // Hold the category name
+  final String categoryName;
+
+  final dynamic quantity; // Hold the category name
 
   const Productsdetails({
     Key? key,
     required this.product,
-    required this.categoryName, // Add this line to the constructor
+    required this.categoryName, required this.quantity, // Add this line to the constructor
   }) : super(key: key);
 
   @override
@@ -182,7 +186,7 @@ class _ProductsdetailsState extends State<Productsdetails> {
                       SizedBox(height: 40),
                       ElevatedButton(
                         onPressed: () {
-                          // Add to cart functionality
+                          Provider.of<CartProvider>(context, listen: false).add(widget.product,quantity);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,

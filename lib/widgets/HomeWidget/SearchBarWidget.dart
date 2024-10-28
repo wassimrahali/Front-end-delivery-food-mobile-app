@@ -111,7 +111,7 @@ class _SearchbarWidgetState extends State<SearchbarWidget> {
                   return InkWell( onTap: () {
                     Get.to(() => Productsdetails(
                       product: result,
-                      categoryName: result['category']['name'] ?? 'Unknown',
+                      categoryName: result['category']['name'] ?? 'Unknown', quantity: null,
                     ));
                   }, child:ListTile(
                     title: Text(result['name'] ?? 'No name'),
