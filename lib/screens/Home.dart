@@ -1,6 +1,9 @@
 import 'package:Foodu/screens/ProfileScreen.dart';
 import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../Cartscreen/Orderscreen.dart';
 import 'HomeScreen.dart';
 
 class Home extends StatefulWidget {
@@ -18,7 +21,7 @@ class _HomeState extends State<Home> {
   List<Widget> _widgetOptions() {
     return [
       Homescreen(userId: widget.id), // Correctly accessing the user ID
-      OrdersScreen(),
+      Orderscreen(userId: widget.id,),
       UpdateUserScreen(userId: widget.id), // Passing user ID correctly
     ];
   }
@@ -41,10 +44,10 @@ class _HomeState extends State<Home> {
         showUnselectedLabels: true,
         currentIndex: _selectedIndex, // Current selected index
         onTap: _onItemTapped, // Handle tap on bottom navigation items
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
+        items: [
+          const BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.receipt_long_outlined), label: 'Orders'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_2_outlined), label: 'Profile'),
+          const BottomNavigationBarItem(icon: Icon(Icons.person_2_outlined), label: 'Profile'),
         ],
         selectedLabelStyle: TextStyle(fontFamily: "Urbanist-Bold"),
         unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
@@ -54,14 +57,4 @@ class _HomeState extends State<Home> {
 }
 
 // Orders screen widget
-class OrdersScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Orders Screen',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
+
