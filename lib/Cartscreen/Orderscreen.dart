@@ -172,6 +172,7 @@ class _OrderscreenState extends State<Orderscreen> {
             );
           } else {
             return ListView.builder(
+
               padding: EdgeInsets.all(16),
               itemCount: _orders.length,
               itemBuilder: (context, index) {
@@ -198,7 +199,7 @@ class _OrderscreenState extends State<Orderscreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Order #${widget.userId}',
+                              'Order #${index + 1}',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Urbanist-Bold',
