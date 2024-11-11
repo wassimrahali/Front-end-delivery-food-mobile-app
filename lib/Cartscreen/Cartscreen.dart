@@ -3,7 +3,7 @@ import 'package:Foodu/widgets/CartWidget/EmptyCart.dart';
 import 'package:Foodu/widgets/CartWidget/LocationBarWidget.dart';
 import 'package:Foodu/widgets/CartWidget/ProductItemWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import '../utils/api_constants.dart';
 import '../utils/colors.dart';
@@ -23,7 +23,42 @@ class Cardscreen extends StatefulWidget {
 class _CardscreenState extends State<Cardscreen> {
   bool _isCreatingOrder = false; // Initially set to false
   String userLocation = '';
+  void initState() {
+    super.initState();
+    getCurrentLocationApp();
+  }
 
+  Future<void> getCurrentLocationApp() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print("Location permissions denied.");
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      print("Location permissions are permanently denied.");
+      return;
+    }
+
+    // Get the current location
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      userLocation = "${position.latitude}, ${position.longitude}";
+    });
+    print("Current location: $userLocation");
+  }
 
 
   double calculateSubtotal(CartProvider cart) {
@@ -111,11 +146,7 @@ class _CardscreenState extends State<Cardscreen> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
 
-  }
 
   @override
   Widget build(BuildContext context) {
