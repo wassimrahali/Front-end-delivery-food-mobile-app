@@ -10,7 +10,7 @@ import '../utils/api_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Homescreen extends StatefulWidget {
-  final int userId; // Accept user ID
+  final int userId;
 
   const Homescreen({Key? key, required this.userId}) : super(key: key);
 

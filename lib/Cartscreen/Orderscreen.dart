@@ -71,8 +71,9 @@ class _OrderscreenState extends State<Orderscreen> {
   Color getOrderStatusColor(String status) {
     switch (status.toUpperCase()) {
       case 'NOT_VALIDATED':
-        return warningColor;
+        return errorColor;
       case 'VALIDATED':
+        return Colors.blueAccent;
       case 'DELIVERED':
         return successColor;
       case 'CANCELLED':
@@ -197,7 +198,7 @@ class _OrderscreenState extends State<Orderscreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Order ',
+                              'Order #${widget.userId}',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Urbanist-Bold',
@@ -205,7 +206,8 @@ class _OrderscreenState extends State<Orderscreen> {
                               ),
                             ),
                             Text(
-                              'Status: ${status.replaceAll("_", " ")}',
+                              //status *******************
+                              '${status.replaceAll("_", " ")}',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontFamily: 'Urbanist-SemiBold',
