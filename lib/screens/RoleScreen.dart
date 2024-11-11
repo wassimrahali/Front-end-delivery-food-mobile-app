@@ -24,12 +24,17 @@ class _RoleScreenState extends State<RoleScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Please Select A Role",
-                style: TextStyle(fontSize: 30, fontFamily: 'Urbanist-Bold'),
-              ),
-              Center(child: Image.asset("assets/images/one.png")),
 
+              Center(child: Image.asset("assets/images/one.png")),
+              Center(
+                  child: Center(
+                    child: Text(
+                      "Together, we make your life better.",
+                      style: TextStyle(fontSize: 20, fontFamily: 'Urbanist-Bold'),
+                    ),
+                  ),
+                ),
+              SizedBox(height: 20,),
               Card(
                 elevation: 0.0, // Removes elevation/shadow
                 shape: RoundedRectangleBorder(

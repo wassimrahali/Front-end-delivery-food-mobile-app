@@ -28,7 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-
+  geocoding: ^3.0.0
   flutter:
     sdk: flutter
   fluttertoast: ^8.2.8
@@ -46,6 +46,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
   shared_preferences: ^2.3.2
   provider: ^6.1.2
+  toastification: ^2.3.0
 
 dev_dependencies:
 

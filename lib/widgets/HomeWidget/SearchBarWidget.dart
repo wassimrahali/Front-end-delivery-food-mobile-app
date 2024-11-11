@@ -21,9 +21,7 @@ class _SearchbarWidgetState extends State<SearchbarWidget> {
 
   // Fetch all products once at the beginning
   Future<void> _fetchAllProducts() async {
-    setState(() {
-      _isLoading = true;
-    });
+
 
     try {
       final response = await http.get(Uri.parse(ApiConstants.getAllProducts));

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SummaryRow extends StatelessWidget {
+class SummaryRowWidget extends StatelessWidget {
   final String label;
   final double amount;
   final bool isTotal;
 
-  const SummaryRow({
+  const SummaryRowWidget({
     Key? key,
     required this.label,
     required this.amount,

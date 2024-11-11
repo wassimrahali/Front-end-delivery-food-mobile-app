@@ -1,5 +1,5 @@
 class ApiConstants {
-  static const String baseUrl = 'http://192.168.85.42:8000/api';
+  static const String baseUrl = 'https://foodie-back.up.railway.app/api';
 
   // Auth Endpoints
   static const String registerCustomer = '$baseUrl/auth/register';
