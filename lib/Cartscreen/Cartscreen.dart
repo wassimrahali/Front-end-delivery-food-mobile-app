@@ -94,7 +94,6 @@ class _CardscreenState extends State<Cardscreen> {
         "totalPrice": totalPrice,
         "location": userLocation,
         "status": "NOT_VALIDATED",
-        "deliveryManId": 2,
         "customerId": widget.userId,
         "orderItems": orderItems,
       };
