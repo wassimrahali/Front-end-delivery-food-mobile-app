@@ -34,6 +34,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SafeArea(
         child: _widgetOptions()[_selectedIndex], // Display the selected screen
