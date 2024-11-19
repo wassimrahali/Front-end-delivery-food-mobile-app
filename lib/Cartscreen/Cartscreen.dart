@@ -57,7 +57,6 @@ class _CardscreenState extends State<Cardscreen> {
     setState(() {
       userLocation = "${position.latitude}, ${position.longitude}";
     });
-    print("Current location: $userLocation");
   }
 
 

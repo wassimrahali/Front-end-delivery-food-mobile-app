@@ -2,9 +2,9 @@ import 'package:Foodu/utils/colors.dart';
 import 'package:Foodu/widgets/AuthFormWidget/SignInButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import '../services/updateUser_service.dart';
+import '../../services/UserService/updateUser_service.dart';
 import 'package:http/http.dart' as http;
-import '../utils/api_constants.dart';
+import '../../utils/api_constants.dart';
 
 class UpdateUserScreen extends StatefulWidget {
   final int userId;

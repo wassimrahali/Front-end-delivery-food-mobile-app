@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-
 import '../../utils/colors.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LocationBarWidget extends StatefulWidget {
   const LocationBarWidget({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class LocationBarWidget extends StatefulWidget {
 
 class _LocationBarWidgetState extends State<LocationBarWidget> {
   String userLocation = '';
+  String userAddress = 'Fetching location...';
+  bool isFetchingAddress = false;
 
   @override
   void initState() {
@@ -50,6 +53,71 @@ class _LocationBarWidgetState extends State<LocationBarWidget> {
       userLocation = "${position.latitude}, ${position.longitude}";
     });
     print("Current location: $userLocation");
+
+    // Fetch the address after getting the coordinates
+    await getAddressFromCoordinates(userLocation);
+  }
+
+  Future<void> getAddressFromCoordinates(String coordinates) async {
+    setState(() {
+      isFetchingAddress = true;
+    });
+
+    final latLng = coordinates.split(',');
+    if (latLng.length != 2) {
+      setState(() {
+        userAddress = 'Invalid location format';
+        isFetchingAddress = false;
+      });
+      return;
+    }
+
+    final lat = latLng[0].trim();
+    final lng = latLng[1].trim();
+
+    final url = Uri.parse(
+        'https://nominatim.openstreetmap.org/reverse?format=json&lat=$lat&lon=$lng&zoom=18&addressdetails=1');
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        String address = data['display_name'] ?? 'Unknown location';
+
+        // Simplify address (until second level)
+        int commaCount = 0;
+        int index = 0;
+        for (int i = 0; i < address.length; i++) {
+          if (address[i] == ',') {
+            commaCount++;
+          }
+          if (commaCount == 2) {
+            index = i;
+            break;
+          }
+        }
+        if (commaCount >= 2) {
+          address = address.substring(0, index);
+        }
+
+        setState(() {
+          userAddress = address;
+        });
+      } else {
+        setState(() {
+          userAddress = 'Location not found';
+        });
+      }
+    } catch (error) {
+      print("Error during geocoding: $error");
+      setState(() {
+        userAddress = 'Location unavailable';
+      });
+    } finally {
+      setState(() {
+        isFetchingAddress = false;
+      });
+    }
   }
 
   @override
@@ -86,9 +154,9 @@ class _LocationBarWidgetState extends State<LocationBarWidget> {
                 ),
                 SizedBox(height: 2),
                 Text(
-                  userLocation.isNotEmpty
-                      ? userLocation
-                      : "Fetching location...",
+                  isFetchingAddress
+                      ? 'Fetching address...'
+                      : userAddress,
                   style: TextStyle(
                     fontSize: 16,
                     fontFamily: "Urbanist-Bold",

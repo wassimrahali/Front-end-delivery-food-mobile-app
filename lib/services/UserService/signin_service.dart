@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../screens/Home.dart';
+import '../../screens/User/Home.dart';
 import '../../utils/api_constants.dart';
 
 class SignInService {

@@ -13,8 +13,8 @@ class PasswordFieldWidget extends StatelessWidget {
       obscureText: true,
       decoration: InputDecoration(
         hintText: "Password",
-        hintStyle: TextStyle(fontSize: 13, fontFamily: 'Urbanist-Regular'),
-        prefixIcon: Icon(Icons.password_sharp),
+        hintStyle: TextStyle(fontSize: 13, fontFamily: 'Urbanist-Regular',color: Colors.black),
+        prefixIcon: Icon(Icons.password_sharp,color: Colors.black),
         filled: true,
         fillColor: Colors.grey[100],
         enabledBorder: OutlineInputBorder(

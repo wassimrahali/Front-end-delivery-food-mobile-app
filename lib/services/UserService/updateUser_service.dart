@@ -1,7 +1,7 @@
 import 'package:Foodu/services/UserService/signin_service.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../utils/api_constants.dart';
+import '../../utils/api_constants.dart';
 
 class UpdateUser {
   Future<void> updateUser(String userId, Map<String, dynamic> updateData) async {

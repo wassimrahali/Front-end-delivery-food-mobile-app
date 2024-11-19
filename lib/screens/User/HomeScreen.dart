@@ -6,7 +6,7 @@ import 'package:Foodu/widgets/HomeWidget/DiscountSectionWidget.dart';
 import 'package:Foodu/widgets/HomeWidget/CategoryWidget.dart';
 import 'package:Foodu/widgets/HomeWidget/SearchBarWidget.dart';
 import 'package:Foodu/widgets/HomeWidget/SpeacialOffersWidget.dart';
-import '../utils/api_constants.dart';
+import '../../utils/api_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Homescreen extends StatefulWidget {
@@ -86,7 +86,6 @@ class _HomescreenState extends State<Homescreen> {
             });
           }
 
-          debugPrint('User ID: ${widget.userId}');
 
         } else {
           throw Exception('Failed to fetch user data: ${response.reasonPhrase}');

@@ -50,11 +50,12 @@ class _SignInFormState extends State<SignInForm> {
                         },
                       ),
                       SizedBox(height: 30),
-                      TextDividerWidget(text: "Or continue with"),
+                      TextDividerWidget(text: "Or continue with",textStyle:TextStyle(color: Colors.black),color: Colors.black45),
                       SizedBox(height: 30),
                       SocialMediaIconsWidget(),
                       SizedBox(height: 40),
                       SignUpOptionWidget(),
+                      SizedBox(height: 20),
                       Forgetpasswordwidget()
                     ],
                   ),

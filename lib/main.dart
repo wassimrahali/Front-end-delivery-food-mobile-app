@@ -1,12 +1,12 @@
 import 'package:Foodu/auth/Userauth/VerifyResetCodePage.dart';
+import 'package:Foodu/screens/User/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'auth/Userauth/SignInForm.dart';
 import 'models/Card.model.dart';
-import 'screens/Deliveryman//Home.dart';
-import 'screens/WelcomeScreens.dart';
+import 'screens/OnBoarding/WelcomeScreens.dart';
 import 'utils/api_constants.dart'; // Make sure to import your API constants
 
 void main() async {
@@ -48,12 +48,11 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: 'Foodie Food',
-      home: Home()
-      /*isFirstTime
+      home:isFirstTime
           ? WelcomeScreens() // Show Welcome/Onboarding screen
           : (token != null && token!.isNotEmpty && userId != null)
           ? Home(id: userId!) // Use the retrieved user ID
-          : SignInForm(), */// If no token, show SignIn page
+          : SignInForm(),
     );
   }
 }

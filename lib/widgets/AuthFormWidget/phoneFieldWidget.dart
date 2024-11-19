@@ -12,8 +12,8 @@ class PhoneFieldWidget extends StatelessWidget {
       cursorColor: CupertinoColors.black,
       decoration: InputDecoration(
         hintText: "Phone Number",
-        hintStyle: TextStyle(fontSize: 13, fontFamily: 'Urbanist-Regular'),
-        prefixIcon: Icon(Icons.phone_android_rounded),
+        hintStyle: TextStyle(fontSize: 13, fontFamily: 'Urbanist-Regular',color: Colors.black),
+        prefixIcon: Icon(Icons.phone_android_rounded,color: Colors.black,),
         filled: true,
         fillColor: Colors.grey[100],
         enabledBorder: OutlineInputBorder(
