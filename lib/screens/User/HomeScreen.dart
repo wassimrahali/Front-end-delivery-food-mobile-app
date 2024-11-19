@@ -86,7 +86,6 @@ class _HomescreenState extends State<Homescreen> {
             });
           }
 
-          debugPrint('User ID: ${widget.userId}');
 
         } else {
           throw Exception('Failed to fetch user data: ${response.reasonPhrase}');
