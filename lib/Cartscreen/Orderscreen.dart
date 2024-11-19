@@ -38,8 +38,6 @@ class _OrderscreenState extends State<Orderscreen> {
 
       if (response.statusCode == 200) {
         try {
-          print("orders of the users " + response.body);
-
           final List<dynamic> ordersJson = jsonDecode(response.body);
           _orders = ordersJson.map((orderJson) => Order.fromJson(orderJson)).toList();
           setState(() {

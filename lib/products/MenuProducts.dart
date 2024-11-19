@@ -160,7 +160,6 @@ class _MenuProductsState extends State<MenuProducts> {
                 return InkWell(
 
                     onTap: () {
-                      print(product["name"]); // Add this line to see what product data looks like
                       Get.to(() => Productsdetails(product: product, categoryName: categoryName, quantity: null,));
                   },child:Card(
                   elevation: 0,

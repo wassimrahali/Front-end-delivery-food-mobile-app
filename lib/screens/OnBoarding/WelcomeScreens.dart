@@ -1,4 +1,4 @@
-import 'package:Foodu/screens/onBordingScreens.dart';
+import 'package:Foodu/screens/OnBoarding/onBordingScreens.dart';
 import 'package:flutter/material.dart';
 import 'package:Foodu/utils/colors.dart';
 

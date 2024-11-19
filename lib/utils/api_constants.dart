@@ -16,6 +16,8 @@ class ApiConstants {
   static const String getCustomerById = '$baseUrl/auth/customer/'; // Append {id} dynamically
   static const String updateCustomer = '$baseUrl/auth/customer/'; // Append {id} dynamically
   static const String deleteCustomer = '$baseUrl/auth/customer/'; // Append {id} dynamically
+  static const String LogoutCustomer = '$baseUrl/auth/signout';
+
 
   // DeliveryMan Endpoints
   static const String getAllDeliveryMen = '$baseUrl/auth/DeliveryMan';
@@ -43,4 +45,6 @@ class ApiConstants {
   static const String getOrderById = '$baseUrl/orders/customer/';
   static const String UpdateOrderStatusById = '$baseUrl/orders/update-status/';
   static const String UpdateOrderDataById = '$baseUrl/orders/';
+
+
 }

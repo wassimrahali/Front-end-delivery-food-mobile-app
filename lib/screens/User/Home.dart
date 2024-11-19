@@ -1,9 +1,9 @@
-import 'package:Foodu/screens/ProfileScreen.dart';
+import 'package:Foodu/screens/User/ProfileScreen.dart';
 import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import '../Cartscreen/Orderscreen.dart';
+import '../../Cartscreen/Orderscreen.dart';
 import 'HomeScreen.dart';
 
 class Home extends StatefulWidget {

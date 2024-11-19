@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../services/UserService/ForgetPosswordService.dart';
+import '../../services/UserService/ForgetPasswordService.dart';
 import '../../widgets/AuthFormWidget/HeaderWidget.dart';
 
 class VerifyResetCodePage extends StatefulWidget {
