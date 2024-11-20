@@ -92,7 +92,7 @@ class _CardscreenState extends State<Cardscreen> {
       Map<String, dynamic> orderData = {
         "totalPrice": totalPrice,
         "location": userLocation,
-        "status": "NOT_VALIDATED",
+        "status": "Padding",
         "customerId": widget.userId,
         "orderItems": orderItems,
       };
