@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../screens/Deliveryman/Home.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../utils/api_constants.dart';
 
 class SignInService {
-
+  static String? _token; // Store token here
+  static int? _userId;
   static Future<void> login(String phone, String password, BuildContext context) async {
     final String apiUrl = ApiConstants.loginDeliveryMan;
 
@@ -23,12 +25,20 @@ class SignInService {
         }),
       );
 
+
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        String yourToken = responseData['token'];
-        Map<String, dynamic> decodedToken = JwtDecoder.decode(yourToken);
+        _token = responseData['token']; // Store the token
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(_token!);
+        _userId = decodedToken['id']; // Store user ID
+
+        // Save token and user ID in SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', _token!); // Save the token
+        await prefs.setInt('userId', _userId!); // Save the user ID
+
         print('Login successful: ${decodedToken}');
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(id: _userId!)));
 
       } else {
         final errorResponse = jsonDecode(response.body);

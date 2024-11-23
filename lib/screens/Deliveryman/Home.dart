@@ -6,7 +6,8 @@ import 'DeliverymanProfile.dart';
 import 'HomeScreenDeliveryman.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final int id;
+  const Home({Key? key, required this.id}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -17,8 +18,8 @@ class _HomeState extends State<Home> {
 
   List<Widget> _widgetOptions() {
     return [
-      Homescreendeliveryman(),
-      DeliverymanOrders(),
+      Homescreendeliveryman(id:widget.id),
+      DeliverymanOrders(id:widget.id),
       DeliverymanProfile()
     ];
   }

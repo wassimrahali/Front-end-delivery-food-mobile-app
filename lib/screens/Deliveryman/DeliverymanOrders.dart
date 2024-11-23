@@ -6,8 +6,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:Foodu/utils/api_constants.dart';
 import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/services.dart';
+
 class DeliverymanOrders extends StatefulWidget {
-  const DeliverymanOrders({super.key});
+  final int id;
+  const DeliverymanOrders({Key? key, required this.id}) : super(key: key);
 
   @override
   State<DeliverymanOrders> createState() => _DeliverymanOrdersState();
@@ -58,7 +60,8 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
 
   Future<void> getOrdersData() async {
     try {
-      final response = await http.get(Uri.parse(ApiConstants.getAOrdersByStatus + 'VALIDATED'));
+      final response =
+      await http.get(Uri.parse(ApiConstants.getOrderByDeliveryManId + '${widget.id}'));
       if (response.statusCode == 200) {
         List<dynamic> orders = jsonDecode(response.body);
 
@@ -130,7 +133,6 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
       return 'Localisation non disponible';
     }
   }
-
   void openGoogleMaps(String coordinates) async {
     final Uri googleMapsUri = Uri.parse(
         'https://www.google.com/maps/dir/?api=1&origin=$myLatitude,$myLongitude&destination=$coordinates&travelmode=driving');
@@ -140,6 +142,50 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
     }
   }
 
+  Future<void> updateOrderStatus(int id, String status) async {
+    try {
+      final response = await http.patch(
+        Uri.parse('${ApiConstants.UpdateOrderStatusById}$id'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'status': status}),
+      );
+
+      if (response.statusCode == 200) {
+        print("Order status updated to $status");
+
+        // Mettre à jour l'état local de la commande
+        setState(() {
+          final orderIndex = _orders.indexWhere((order) => order['id'] == id);
+          if (orderIndex != -1) {
+            _orders[orderIndex]['status'] = status;
+          }
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Le statut de la commande a été mis à jour avec succès.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        print("Failed to update order status: ${response.statusCode}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Échec de la mise à jour du statut de la commande.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (error) {
+      print("Error updating order status: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Une erreur est survenue lors de la mise à jour du statut.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
   void CallCustemer(String phone) async {
     if (phone.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -196,18 +242,13 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
       );
     }
   }
-
-
-
-
-
   Color getOrderStatusColor(String status) {
     switch (status) {
-      case 'VALIDATED':
+      case 'DELIVERED':
         return Colors.green;
-      case 'NOT_VALIDATED':
+      case 'ON_ROAD':
         return Colors.orange;
-      case 'Canceled':
+      case 'RETURNED ':
         return Colors.red;
       default:
         return Colors.grey;
@@ -225,6 +266,7 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
         ),
       );
     }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -236,7 +278,6 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
             final status = order['status'] ?? 'Unknown';
             final statusColor = getOrderStatusColor(status);
             final totalPrice = order['totalPrice'] ?? '0';
-            final location = order['location'] ?? '0,0';
             final locationName = order['locationName'] ?? 'Localisation inconnue';
             final orderItems = order['orderItems'] ?? [];
             bool isDetailsExpanded = _expandedItems[index] ?? false;
@@ -244,7 +285,7 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
             return Card(
               elevation: 0,
               shadowColor: Colors.black54,
-              color: Colors.black54,
+              color: Colors.greenAccent,
               margin: EdgeInsets.only(bottom: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -262,7 +303,7 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
                           style: TextStyle(
                             fontSize: 16,
                             fontFamily: 'Urbanist-Bold',
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                         Text(
@@ -287,13 +328,12 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
                           Text(
                             'Order details',
                             style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Urbanist-Regular',
-                              color: Colors.white,
-                            ),
+                                fontSize: 14,
+                                fontFamily: 'Urbanist-Regular',
+                                color: Colors.black),
                           ),
                           Icon(
-                            color: Colors.white,
+                            color: Colors.black,
                             isDetailsExpanded
                                 ? Icons.expand_less
                                 : Icons.expand_more,
@@ -321,26 +361,31 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
                                 ),
                                 SizedBox(width: 12),
                                 Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        item['product']['name'],
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontFamily: 'Urbanist-Regular',
+                                  child: Container(
+                                    height: 100,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${item['product']['name']}',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: 'Urbanist-Bold',
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        '${item['product']['price']} DT',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily: 'Urbanist-Regular',
-                                          color: Colors.white,
+                                        SizedBox(height: 4),
+                                        Text(
+                                          '${item['quantity']} x ${item['product']['price']} DT',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'Urbanist-Regular',
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -349,59 +394,93 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
                         }).toList(),
                       ),
                     ],
-                    Divider(height: 24, color: Colors.white),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Total",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontFamily: 'Urbanist-SemiBold',
-                            color: Colors.white,
+                    SizedBox(height: 16),
+                    GestureDetector(
+                      onTap: () => openGoogleMaps(order['location']),
+                      child:Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.black,
                           ),
-                        ),
-                        Text(
-                          '${totalPrice.toString()} DT',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontFamily: 'Urbanist-SemiBold',
-                            color: Colors.white,
+                          SizedBox(width: 5),
+                          Expanded(
+                            child: Text(
+                              locationName,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontFamily: 'Urbanist-Regular',
+                                color: Colors.black,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Total: ${totalPrice} DT',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Urbanist-Bold',
+                        color: Colors.black,
+                      ),
                     ),
                     Divider(height: 24, color: Colors.white),
                     Row(children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
+                        onPressed: () => openGoogleMaps(order['location']),
+                        child: Text("Naviguer avec Google Maps"),
                       ),
-                      onPressed: () => openGoogleMaps(location),
-                      child: Text("Naviguer avec Google Maps"),
-                    ),
-                    SizedBox(width: 5),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: successColor,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      onPressed: () => CallCustemer("+21624961175"),
-                      child: Icon(Icons.phone)),],),
+                      SizedBox(width: 5),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: successColor,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          onPressed: () => CallCustemer(order['customer']['phone']),
+                          child: Icon(Icons.phone)),],),
                     Divider(height: 24,color: Colors.white),
-                    Center(
-                      child: Row(children: [
-                        MaterialButton(color: successColor,child:Text("Livrer"),textColor: Colors.white,onPressed: (){}),
-                        SizedBox(width: 20,),
-                        MaterialButton(color:Colors.red,child:Text("Annuler"),textColor: Colors.white,onPressed: (){})],),
-                    )
+                    if (status != 'DELIVERED' && status != 'RETURNED') ...[
+                      Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MaterialButton(
+                              color: successColor,
+                              child: Text("DELIVERED"),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                updateOrderStatus(order['id'], 'DELIVERED');
+                              },
+                            ),
+                            SizedBox(width: 20),
+                            MaterialButton(
+                              color: Colors.red,
+                              child: Text("RETURNED"),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                updateOrderStatus(order['id'], 'RETURNED');
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -410,5 +489,4 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
         ),
       ),
     );
-  }
-}
+  }}

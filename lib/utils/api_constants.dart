@@ -44,6 +44,7 @@ class ApiConstants {
   static const String getAOrdersByStatus= '$baseUrl/orders/status/';
   static const String getOrderById = '$baseUrl/orders/customer/';
   static const String UpdateOrderStatusById = '$baseUrl/orders/update-status/';
+  static const String getOrderByDeliveryManId = '$baseUrl/orders/deliveryMan/';
   static const String UpdateOrderDataById = '$baseUrl/orders/';
 
 
