@@ -92,7 +92,7 @@ class _CardscreenState extends State<Cardscreen> {
       Map<String, dynamic> orderData = {
         "totalPrice": totalPrice,
         "location": userLocation,
-        "status": "Padding",
+        "status": "PENDING",
         "customerId": widget.userId,
         "orderItems": orderItems,
       };
@@ -114,6 +114,8 @@ class _CardscreenState extends State<Cardscreen> {
             duration: Duration(seconds: 3),
           ),
         );
+        await Future.delayed(Duration(seconds: 2));
+        cart.clearCart();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

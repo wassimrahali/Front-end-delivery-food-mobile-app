@@ -1,5 +1,5 @@
 import 'package:Foodu/auth/Userauth/VerifyResetCodePage.dart';
-import 'package:Foodu/screens/Deliveryman/Home.dart';
+import 'package:Foodu/screens/User/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';

@@ -37,21 +37,18 @@ class _OrderscreenState extends State<Orderscreen> {
       );
 
       if (response.statusCode == 200) {
-        try {
-          final List<dynamic> ordersJson = jsonDecode(response.body);
-          _orders = ordersJson.map((orderJson) => Order.fromJson(orderJson)).toList();
-          setState(() {
-            _isLoading = false;
-          });
-        } catch (e) {
-          print("Error decoding JSON: $e");
-          setState(() {
-            _hasError = true;
-            _isLoading = false;
-          });
-        }
+        final List<dynamic> ordersJson = jsonDecode(response.body);
+
+        // If the response is an empty array, set `_orders` to an empty list
+        _orders = ordersJson.isNotEmpty
+            ? ordersJson.map((orderJson) => Order.fromJson(orderJson)).toList()
+            : [];
+
+        setState(() {
+          _isLoading = false;
+        });
       } else {
-        print("Failed to fetch orders: ${response.statusCode}");
+        print("Unexpected response: ${response.statusCode}");
         setState(() {
           _hasError = true;
           _isLoading = false;
@@ -65,6 +62,7 @@ class _OrderscreenState extends State<Orderscreen> {
       });
     }
   }
+
 
   Color getOrderStatusColor(String status) {
     switch (status.toUpperCase()) {

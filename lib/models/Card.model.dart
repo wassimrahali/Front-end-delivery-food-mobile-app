@@ -23,4 +23,8 @@ class CartProvider extends ChangeNotifier {
     _products.remove(product);
     notifyListeners();
   }
+  void clearCart() {
+    _products.clear(); // Clear the private list
+    notifyListeners(); // Notify listeners to update the UI
+  }
 }
