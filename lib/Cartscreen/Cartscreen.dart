@@ -114,6 +114,8 @@ print(response.body);
             duration: Duration(seconds: 3),
           ),
         );
+        await Future.delayed(Duration(seconds: 2));
+        cart.clearCart();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
