@@ -92,7 +92,7 @@ class _CardscreenState extends State<Cardscreen> {
       Map<String, dynamic> orderData = {
         "totalPrice": totalPrice,
         "location": userLocation,
-        "status": "Padding",
+        "status": "PENDING",
         "customerId": widget.userId,
         "orderItems": orderItems,
       };
@@ -102,7 +102,7 @@ class _CardscreenState extends State<Cardscreen> {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(orderData),
       );
-
+print(response.body);
       if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

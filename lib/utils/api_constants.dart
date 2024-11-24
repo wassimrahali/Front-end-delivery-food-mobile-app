@@ -21,10 +21,10 @@ class ApiConstants {
 
   // DeliveryMan Endpoints
   static const String getAllDeliveryMen = '$baseUrl/auth/DeliveryMan';
-  static const String getDeliveryManById = '$baseUrl/auth/DeliveryMan/'; // Append {id} dynamically
-  static const String updateDeliveryMan = '$baseUrl/auth/DeliveryMan/'; // Append {id} dynamically
+  static const String getDeliveryManById = '$baseUrl/auth/DileveryMan/'; // Append {id} dynamically
+  static const String updateDeliveryMan = '$baseUrl/auth/DileveryMan/'; // Append {id} dynamically
   static const String deleteDeliveryMan = '$baseUrl/auth/DeliveryMan/'; // Append {id} dynamically
-
+  static const String LogoutDeliveryMan = '$baseUrl/auth/signout-DileveryMan';
   // Product Endpoints
   static const String getAllProducts = '$baseUrl/products';
   static const String createProduct = '$baseUrl/products';
