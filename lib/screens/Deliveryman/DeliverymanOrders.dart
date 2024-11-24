@@ -1,3 +1,4 @@
+import 'package:Foodu/widgets/CartWidget/EmptyCart.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -6,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:Foodu/utils/api_constants.dart';
 import 'package:Foodu/utils/colors.dart';
 import 'package:flutter/services.dart';
+// Import du fichier contenant le widget EmptyCart
 
 class DeliverymanOrders extends StatefulWidget {
   final int id;
@@ -60,8 +62,7 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
 
   Future<void> getOrdersData() async {
     try {
-      final response =
-      await http.get(Uri.parse(ApiConstants.getOrderByDeliveryManId + '${widget.id}'));
+      final response = await http.get(Uri.parse(ApiConstants.getOrderByDeliveryManId + '${widget.id}'));
       if (response.statusCode == 200) {
         List<dynamic> orders = jsonDecode(response.body);
 
@@ -133,6 +134,7 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
       return 'Localisation non disponible';
     }
   }
+
   void openGoogleMaps(String coordinates) async {
     final Uri googleMapsUri = Uri.parse(
         'https://www.google.com/maps/dir/?api=1&origin=$myLatitude,$myLongitude&destination=$coordinates&travelmode=driving');
@@ -186,6 +188,7 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
       );
     }
   }
+
   void CallCustemer(String phone) async {
     if (phone.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -199,18 +202,13 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
 
     final Uri telUri = Uri(scheme: 'tel', path: phone.trim());
 
-    print('Numéro de téléphone : $phone');
-    print('URI générée : $telUri');
-
     try {
       if (await canLaunchUrl(telUri)) {
         await launchUrl(telUri, mode: LaunchMode.externalApplication);
-        print('Appel lancé avec succès.');
       } else {
         throw 'Aucune application disponible pour passer un appel.';
       }
     } catch (error) {
-      print('Erreur : $error');
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -242,6 +240,7 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
       );
     }
   }
+
   Color getOrderStatusColor(String status) {
     switch (status) {
       case 'DELIVERED':
@@ -263,6 +262,16 @@ class _DeliverymanOrdersState extends State<DeliverymanOrders> {
           child: CircularProgressIndicator(
             color: Colors.green,
           ),
+        ),
+      );
+    }
+
+    // Si la liste des commandes est vide, afficher le widget EmptyCart
+    if (_orders.isEmpty) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: EmptyCart(), // Assurez-vous que ce widget est défini
         ),
       );
     }
