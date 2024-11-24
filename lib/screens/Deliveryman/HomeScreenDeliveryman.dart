@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'package:Foodu/widgets/CartWidget/EmptyCart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:Foodu/utils/colors.dart'; // Importez vos couleurs personnalisées
-import 'package:Foodu/utils/api_constants.dart'; // Importez vos constantes d'API
+import 'package:Foodu/utils/api_constants.dart'; //
 
 class Homescreendeliveryman extends StatefulWidget {
   final int id;
@@ -28,7 +29,8 @@ class _HomescreendeliverymanState extends State<Homescreendeliveryman> {
   // Récupère les données des commandes depuis l'API
   Future<void> getOrdersData() async {
     try {
-      final response = await http.get(Uri.parse(ApiConstants.getAOrdersByStatus + 'VALIDATED'));
+      final response = await http.get(
+          Uri.parse(ApiConstants.getAOrdersByStatus + 'VALIDATED'));
       if (response.statusCode == 200) {
         List<dynamic> orders = jsonDecode(response.body);
 
@@ -64,7 +66,7 @@ class _HomescreendeliverymanState extends State<Homescreendeliveryman> {
       final response = await http.put(
         Uri.parse(ApiConstants.UpdateOrderDataById + '$id'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'status': newStatus,"deliveryManId":widget.id}),
+        body: jsonEncode({'status': newStatus, "deliveryManId": widget.id}),
       );
 
       if (response.statusCode == 200) {
@@ -78,7 +80,8 @@ class _HomescreendeliverymanState extends State<Homescreendeliveryman> {
           SnackBar(content: Text("Order status updated to $newStatus")),
         );
       } else {
-        throw Exception('Failed to update order status: ${response.statusCode}');
+        throw Exception(
+            'Failed to update order status: ${response.statusCode}');
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -111,11 +114,13 @@ class _HomescreendeliverymanState extends State<Homescreendeliveryman> {
         final addressParts = data['address'];
         if (addressParts != null) {
           final String street = addressParts['road'] ?? '';
-          final String city = addressParts['city'] ?? addressParts['town'] ?? addressParts['village'] ?? '';
+          final String city = addressParts['city'] ?? addressParts['town'] ??
+              addressParts['village'] ?? '';
           final String country = addressParts['country'] ?? '';
 
           // Construire une adresse plus courte
-          final List<String> shortAddress = [street, city, country].where((part) => part.isNotEmpty).toList();
+          final List<String> shortAddress = [street, city, country].where((
+              part) => part.isNotEmpty).toList();
           final simplifiedAddress = shortAddress.join(', ');
 
           _addressCache[coordinates] = simplifiedAddress;
@@ -171,11 +176,15 @@ class _HomescreendeliverymanState extends State<Homescreendeliveryman> {
               children: [
                 Text(
                   'Order #${order['id']}',
-                  style: const TextStyle(fontSize: 16, fontFamily: 'Urbanist-Bold', color: Colors.black),
+                  style: const TextStyle(fontSize: 16,
+                      fontFamily: 'Urbanist-Bold',
+                      color: Colors.black),
                 ),
                 Text(
                   status.replaceAll("_", " "),
-                  style: TextStyle(fontSize: 14, fontFamily: 'Urbanist-SemiBold', color: statusColor),
+                  style: TextStyle(fontSize: 14,
+                      fontFamily: 'Urbanist-SemiBold',
+                      color: statusColor),
                 ),
               ],
             ),
@@ -190,7 +199,9 @@ class _HomescreendeliverymanState extends State<Homescreendeliveryman> {
                 children: [
                   const Text(
                     'Order details',
-                    style: TextStyle(fontSize: 14, fontFamily: 'Urbanist-Regular', color: Colors.black),
+                    style: TextStyle(fontSize: 14,
+                        fontFamily: 'Urbanist-Regular',
+                        color: Colors.black),
                   ),
                   Icon(
                     isDetailsExpanded ? Icons.expand_less : Icons.expand_more,
@@ -210,7 +221,8 @@ class _HomescreendeliverymanState extends State<Homescreendeliveryman> {
                     fit: BoxFit.cover,
                   ),
                   title: Text(item['product']['name']),
-                  subtitle: Text('${item['quantity']} x ${item['product']['price']} DT'),
+                  subtitle: Text(
+                      '${item['quantity']} x ${item['product']['price']} DT'),
                 );
               }).toList(),
             ],
@@ -220,11 +232,15 @@ class _HomescreendeliverymanState extends State<Homescreendeliveryman> {
               children: [
                 const Text(
                   "Total Amount",
-                  style: TextStyle(fontSize: 16, fontFamily: 'Urbanist-Medium', color: Colors.black),
+                  style: TextStyle(fontSize: 16,
+                      fontFamily: 'Urbanist-Medium',
+                      color: Colors.black),
                 ),
                 Text(
                   "$totalPrice DT",
-                  style: TextStyle(fontSize: 16, fontFamily: 'Urbanist-Bold', color: successColor),
+                  style: TextStyle(fontSize: 16,
+                      fontFamily: 'Urbanist-Bold',
+                      color: successColor),
                 ),
               ],
             ),
@@ -271,9 +287,14 @@ class _HomescreendeliverymanState extends State<Homescreendeliveryman> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
+        child: _orders.isEmpty
+            ? Center(
+          child: EmptyCart(), // Affiche le widget EmptyCart si aucune commande n'est disponible
+        )
+            : ListView.builder(
           itemCount: _orders.length,
-          itemBuilder: (context, index) => buildOrderItem(_orders[index], index),
+          itemBuilder: (context, index) =>
+              buildOrderItem(_orders[index], index),
         ),
       ),
     );
